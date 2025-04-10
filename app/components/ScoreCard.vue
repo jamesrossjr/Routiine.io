@@ -1,35 +1,74 @@
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, nextTick, watch, computed } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount, nextTick, watch } from 'vue'
 import Chart from 'chart.js/auto'
-import type { ChartTypeRegistry } from 'chart.js'
+import type { ChartTypeRegistry, Point, BubbleDataPoint } from 'chart.js'
 
-const targetScore = 78
-const score = ref(0)
-const signals = ref([
-  { type: 'positive', name: 'Email response', impact: 5 },
-  { type: 'positive', name: 'PageView pattern', impact: 3 },
-  { type: 'negative', name: 'Decreased engagement', impact: -4 },
-  { type: 'positive', name: 'Form submission', impact: 6 },
-  { type: 'negative', name: 'Session time dropped', impact: -2 }
-])
-// Keep a fixed maximum number of signals to prevent layout shifts
+// Signal type definition
+interface Signal {
+  type: 'positive' | 'negative';
+  name: string;
+  impact: number;
+  timestamp: number;
+}
+
+// Constants
 const MAX_SIGNALS_DISPLAYED = 5
+const ANIMATION_SPEED = 20 // ms between animation frames
+const SIMULATION_INTERVAL = 3000 // ms between signal updates
+const BATCH_INTERVAL = 80 // ms between chart updates
 
+// State management
+const score = ref(0)
+const targetScore = ref(0)
+const signals = ref<Signal[]>([
+  { type: 'positive', name: 'Email response', impact: 5, timestamp: Date.now() - 5000 },
+  { type: 'positive', name: 'PageView pattern', impact: 3, timestamp: Date.now() - 4000 },
+  { type: 'negative', name: 'Decreased engagement', impact: -4, timestamp: Date.now() - 3000 },
+  { type: 'positive', name: 'Form submission', impact: 6, timestamp: Date.now() - 2000 },
+  { type: 'negative', name: 'Session time dropped', impact: -2, timestamp: Date.now() - 1000 }
+])
+
+// Chart reference with proper type definition
+let chartInstance: Chart<keyof ChartTypeRegistry, (number | [number, number] | Point | BubbleDataPoint | null)[], unknown> | null = null
+
+// Interval references for cleanup
+let animationTimeoutId: number | null = null
+let automationIntervalId: number | null = null
+let chartUpdateTimeoutId: number | null = null
+
+// Computed properties
 const activityTrend = computed(() => {
-  return signals.value.filter(s => s.type === 'positive').length > 
-         signals.value.filter(s => s.type === 'negative').length ? 12 : -8
+  const positiveCount = signals.value.filter(s => s.type === 'positive').length
+  const negativeCount = signals.value.filter(s => s.type === 'negative').length
+  return positiveCount > negativeCount ? 12 : -8
 })
+
 const conversionTrend = computed(() => {
-  return signals.value.reduce((sum, s) => sum + s.impact, 0) > 0 ? 4 : -3
+  const netImpact = signals.value.reduce((sum, s) => sum + s.impact, 0)
+  return netImpact > 0 ? 4 : -3
 })
+
 const signalCount = computed(() => signals.value.length)
 
 // Get only the most recent signals up to MAX_SIGNALS_DISPLAYED
 const visibleSignals = computed(() => {
-  return signals.value.slice(-MAX_SIGNALS_DISPLAYED)
+  return [...signals.value]
+    .sort((a, b) => b.timestamp - a.timestamp)
+    .slice(0, MAX_SIGNALS_DISPLAYED)
 })
 
-let scorecardChart: Chart<keyof ChartTypeRegistry, unknown[], unknown> | null = null
+// Generate placeholders to maintain consistent layout
+const placeholderCount = computed(() => 
+  Math.max(0, MAX_SIGNALS_DISPLAYED - visibleSignals.value.length)
+)
+
+// Calculate score color based on value
+const scoreColor = computed(() => {
+  if (score.value > 70) return '#0d9488' // teal-600
+  if (score.value > 50) return '#0ea5e9' // sky-500
+  if (score.value > 30) return '#f59e0b' // amber-500
+  return '#ef4444' // red-500
+})
 
 // Calculate the dynamic score based on all signals
 const calculateScore = () => {
@@ -38,230 +77,362 @@ const calculateScore = () => {
   return Math.min(100, Math.max(0, 50 + signalImpact * 2))
 }
 
-// Update chart and animate score changes
-const updateChart = () => {
-  const newTarget = calculateScore()
-  
-  // Animate to new target
-  const animateToTarget = setInterval(() => {
-    if (score.value < newTarget) {
-      score.value++
-    } else if (score.value > newTarget) {
-      score.value--
-    } else {
-      clearInterval(animateToTarget)
+// Create or update chart with error handling and proper cleanup
+const renderChart = () => {
+  const ctx = document.getElementById('scorecardChart') as HTMLCanvasElement | null
+  if (!ctx) {
+    console.error('Canvas element not found')
+    return
+  }
+
+  try {
+    // Clean up existing chart instance if it exists
+    if (chartInstance) {
+      chartInstance.destroy()
+      chartInstance = null
     }
-  }, 20)
-  
-  // Update chart colors based on score
-  if (scorecardChart && scorecardChart.data && scorecardChart.data.datasets) {
-    const scoreColor = score.value > 70 ? '#0d9488' : 
-                       score.value > 50 ? '#0ea5e9' :
-                       score.value > 30 ? '#f59e0b' : '#ef4444'
-                       
-    if (scorecardChart.data.datasets[0]) {
-      scorecardChart.data.datasets[0].backgroundColor = [scoreColor, '#1e293b']
-    }
-    scorecardChart.update('none')
+    
+    // Create new chart with configuration
+    chartInstance = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Score', 'Remaining'],
+        datasets: [{
+          data: [score.value, 100 - score.value],
+          backgroundColor: [scoreColor.value, '#1e293b'],
+          borderWidth: 0,
+          circumference: 180,
+          rotation: 270
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '80%',
+        plugins: {
+          legend: { display: false },
+          tooltip: { enabled: false }
+        },
+        layout: {
+          padding: {
+            bottom: 30 // Add padding for the score text
+          }
+        }
+      }
+    })
+  } catch (error) {
+    console.error('Error creating chart:', error)
   }
 }
 
-// Simulate backend signal processing with automated changes
+// Update chart with new data without re-rendering
+const updateChartDisplay = () => {
+  if (!chartInstance) {
+    renderChart()
+    return
+  }
+  
+  try {
+    // Use type-safe access to the datasets with null checks
+    if (chartInstance.data && chartInstance.data.datasets && chartInstance.data.datasets[0]) {
+      chartInstance.data.datasets[0].data = [score.value, 100 - score.value]
+      chartInstance.data.datasets[0].backgroundColor = [scoreColor.value, '#1e293b']
+      
+      // Update with proper animation for smooth transitions
+      chartInstance.update('active')
+    }
+  } catch (error) {
+    console.error('Error updating chart:', error)
+    // If there's an error updating, try to re-render the chart
+    renderChart()
+  }
+}
+
+// Improved animation with setTimeout
+const animateToTargetScore = () => {
+  // Clear any existing animation
+  if (animationTimeoutId !== null) {
+    window.clearTimeout(animationTimeoutId)
+    animationTimeoutId = null
+  }
+
+  // Calculate the difference to determine animation speed
+  const difference = Math.abs(targetScore.value - score.value)
+  const speedAdjustment = difference > 10 ? 2 : 1 // Speed up larger changes
+  const animationDelay = Math.max(10, ANIMATION_SPEED / speedAdjustment)
+  
+  let lastUpdateTime = 0
+  
+  // Define the animation function
+  const animate = () => {
+    const currentTime = Date.now()
+    let needsUpdate = false
+    
+    if (score.value < targetScore.value) {
+      score.value++
+      needsUpdate = true
+    } else if (score.value > targetScore.value) {
+      score.value--
+      needsUpdate = true
+    } else {
+      // We've reached the target, no need to continue
+      return
+    }
+    
+    // Only update chart at certain intervals to avoid too many redraws
+    if (needsUpdate && (currentTime - lastUpdateTime > BATCH_INTERVAL)) {
+      updateChartDisplay()
+      lastUpdateTime = currentTime
+    }
+    
+    // Continue animation with setTimeout for better control
+    animationTimeoutId = window.setTimeout(animate, animationDelay)
+  }
+  
+  // Start the animation
+  animate()
+}
+
+// Set target score and start animation
+const setTargetScore = (newTarget: number) => {
+  targetScore.value = Math.min(100, Math.max(0, newTarget))
+  animateToTargetScore()
+}
+
+// Signal generation with more variety
+const getRandomSignal = (positive: boolean): Signal => {
+  const posSignals = [
+    { type: 'positive' as const, name: 'New page view', impact: 3 },
+    { type: 'positive' as const, name: 'Form initiated', impact: 4 },
+    { type: 'positive' as const, name: 'Email opened', impact: 2 },
+    { type: 'positive' as const, name: 'Video watched', impact: 5 },
+    { type: 'positive' as const, name: 'Live chat started', impact: 3 },
+    { type: 'positive' as const, name: 'Product clicked', impact: 2 },
+    { type: 'positive' as const, name: 'Download initiated', impact: 4 }
+  ]
+  
+  const negSignals = [
+    { type: 'negative' as const, name: 'Abandoned cart', impact: -4 },
+    { type: 'negative' as const, name: 'Bounce detected', impact: -3 },
+    { type: 'negative' as const, name: 'Session timeout', impact: -2 },
+    { type: 'negative' as const, name: 'Form abandoned', impact: -5 },
+    { type: 'negative' as const, name: 'Error occurred', impact: -3 },
+    { type: 'negative' as const, name: 'Page load slow', impact: -2 },
+    { type: 'negative' as const, name: 'Exit from funnel', impact: -4 }
+  ]
+
+  const sourceArray = positive ? posSignals : negSignals
+  const randomIndex = Math.floor(Math.random() * sourceArray.length)
+  const signal = sourceArray[randomIndex] || {
+    type: positive ? 'positive' as const : 'negative' as const,
+    name: positive ? 'Default positive signal' : 'Default negative signal',
+    impact: positive ? 3 : -3
+  }
+  
+  return {
+    type: signal.type,
+    name: signal.name,
+    impact: signal.impact,
+    timestamp: Date.now()
+  }
+}
+
+// Simulate backend signal processing with debounced updates - improved debouncing
 const simulateBackendProcessing = () => {
   // Random chance to add or remove signals
   const action = Math.random()
   
-  if (action > 0.8 && signals.value.length > 2) {
-    // Remove a signal (20% chance if we have more than 2 signals)
+  if (action > 0.8 && signals.value.length > 3) {
+    // Remove a signal (20% chance if we have more than 3 signals)
     const indexToRemove = Math.floor(Math.random() * signals.value.length)
     signals.value.splice(indexToRemove, 1)
-  } else if (action > 0.6 || signals.value.length < 2) {
-    // Add a new signal (40% chance or if we have less than 2 signals)
-    const posSignals = [
-      { type: 'positive', name: 'New page view', impact: 3 },
-      { type: 'positive', name: 'Form initiated', impact: 4 },
-      { type: 'positive', name: 'Email opened', impact: 2 },
-      { type: 'positive', name: 'Video watched', impact: 5 }
-    ]
-    
-    const negSignals = [
-      { type: 'negative', name: 'Abandoned cart', impact: -4 },
-      { type: 'negative', name: 'Bounce detected', impact: -3 },
-      { type: 'negative', name: 'Session timeout', impact: -2 },
-      { type: 'negative', name: 'Form abandoned', impact: -5 }
-    ]
-    
-    // 60% chance for positive signal
-    const newSignal =
-    Math.random() > 0.4
-        ? posSignals[Math.floor(Math.random() * posSignals.length)]!
-        : negSignals[Math.floor(Math.random() * negSignals.length)]!
-      
+  } else if (action > 0.6 || signals.value.length < 3) {
+    // Add a new signal (40% chance or if we have less than 3 signals)
+    const isPositive = Math.random() > 0.4 // 60% chance for positive signals
+    const newSignal = getRandomSignal(isPositive)
     signals.value.push(newSignal)
   }
   
-  // Update the chart with new data
-  updateChart()
-}
-
-const renderChart = () => {
-  const ctx = document.getElementById('scorecardChart') as HTMLCanvasElement | null
-  if (!ctx) return
-
-  // First destroy any existing chart instance
-  if (scorecardChart) {
-    scorecardChart.destroy()
+  // Debounce score updates to prevent excessive chart redraws
+  if (chartUpdateTimeoutId !== null) {
+    window.clearTimeout(chartUpdateTimeoutId)
   }
   
-  // Clear any previous chart instance from Chart.js internal registry
-  Chart.getChart(ctx)?.destroy()
-  
-  // Create new chart
-  scorecardChart = new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-      labels: ['Score', 'Remaining'],
-      datasets: [
-        {
-          data: [score.value, 100 - score.value],
-          backgroundColor: ['#0d9488', '#1e293b'],
-          borderWidth: 0,
-          circumference: 180,
-          rotation: 270
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      cutout: '80%',
-      plugins: {
-        legend: { display: false },
-        tooltip: { enabled: false }
-      },
-      animation: {
-        duration: 800,
-        easing: 'easeOutQuart'
-      }
-    }
-  })
+  chartUpdateTimeoutId = window.setTimeout(() => {
+    // Update target score based on new signals
+    setTargetScore(calculateScore())
+    chartUpdateTimeoutId = null
+  }, 50) // Small delay to batch multiple signal changes
 }
 
+// Improved cleanup function with null checks
+const cleanup = () => {
+  if (chartInstance) {
+    chartInstance.destroy()
+    chartInstance = null
+  }
+  
+  if (animationTimeoutId !== null) {
+    window.clearTimeout(animationTimeoutId)
+    animationTimeoutId = null
+  }
+  
+  if (automationIntervalId !== null) {
+    window.clearInterval(automationIntervalId)
+    automationIntervalId = null
+  }
+  
+  if (chartUpdateTimeoutId !== null) {
+    window.clearTimeout(chartUpdateTimeoutId)
+    chartUpdateTimeoutId = null
+  }
+}
+
+// Manual signal addition - useful for external triggers
+const addSignal = (type: 'positive' | 'negative', name: string, impact: number) => {
+  signals.value.push({
+    type,
+    name,
+    impact,
+    timestamp: Date.now()
+  })
+  setTargetScore(calculateScore())
+}
+
+// Setup mounted with improved initialization
 onMounted(async () => {
   await nextTick()
   
-  // Set initial score target based on current signals
+  // Set initial values
   score.value = 0
   
-  // Render initial chart
+  // Initialize chart after DOM is fully rendered
   renderChart()
   
-  // Start with initial calculation and animation
-  updateChart()
+  // Set initial score target based on current signals and update directly
+  const initialScore = calculateScore()
+  targetScore.value = initialScore
+  score.value = initialScore
   
-  // Set up automatic signal processing simulation to show automation
-  const automationInterval = setInterval(() => {
+  // Update the chart once with initial values
+  updateChartDisplay()
+  
+  // Set up automatic signal processing simulation
+  automationIntervalId = window.setInterval(() => {
     simulateBackendProcessing()
-  }, 3000) // Update every 3 seconds
-  
-  // Store interval for cleanup
-  onBeforeUnmount(() => {
-    clearInterval(automationInterval)
-  })
+  }, SIMULATION_INTERVAL)
 })
 
-// Add reactivity for score updates
-watch(score, () => {
-  if (scorecardChart && scorecardChart.data && scorecardChart.data.datasets && scorecardChart.data.datasets[0]) {
-    scorecardChart.data.datasets[0].data = [score.value, 100 - score.value]
-    scorecardChart.update('none') // Use 'none' for smoother updates
-  }
-})
-
-onBeforeUnmount(() => {
-  if (scorecardChart) {
-    scorecardChart.destroy()
-    scorecardChart = null
-  }
-  
-  // Clear any running animations or intervals
-  const allIntervals = window.setInterval(() => {}, 9999);
-  for (let i = 1; i <= allIntervals; i++) {
-    window.clearInterval(i);
-  }
-})
+// Clean up resources on unmount
+onBeforeUnmount(cleanup)
 </script>
 
 <template>
   <UContainer class="py-12 flex justify-center items-center">
-    <UPageCard variant="ghost" class="shadow-none text-center">
+    <UCard
+      :ui="{ base: 'shadow-none text-center' }"
+      class="bg-transparent border-0"
+    >
       <div
         class="w-[320px] sm:w-[360px] md:w-[400px] aspect-[9/18] rounded-[2.5rem] bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white p-6 flex flex-col justify-between"
+        aria-label="Momentum Scorecard"
+        role="region"
       >
         <!-- Header -->
-        <h2 class="text-center text-lg font-bold tracking-tight text-white">
+        <UHeading tag="h2" size="lg" class="text-center tracking-tight text-white">
           Momentum Scorecard
-        </h2>
+        </UHeading>
 
         <!-- Score Circle -->
-        <div class="relative h-40 mt-2">
-          <canvas id="scorecardChart" class="w-full h-full" />
+        <div class="relative h-40 mt-2" aria-label="Score Meter">
+          <div class="scorecard-chart-container w-full h-full">
+            <canvas id="scorecardChart" role="img" aria-label="Score Visualization"></canvas>
+          </div>
           <div
-            class="absolute inset-0 flex items-center justify-center text-5xl font-bold text-white"
+            class="absolute inset-0 flex flex-col items-center justify-end pb-2"
           >
-            {{ score }}
+            <span class="text-6xl font-bold" :style="`color: ${scoreColor}`" aria-live="polite">
+              {{ score }}
+            </span>
+            <span class="text-xs text-slate-400 mt-1">momentum score</span>
           </div>
         </div>
 
         <!-- Stats -->
-        <div class="text-sm mt-4 space-y-3">
+        <div class="text-sm mt-6 space-y-3">
           <div class="flex justify-between items-center">
-            <p :class="[activityTrend >= 0 ? 'text-teal-400' : 'text-red-400']">
+            <p :class="[activityTrend >= 0 ? 'text-teal-400' : 'text-red-400']" class="flex-grow">
               Activities:
-              <span class="font-semibold">
+              <span class="font-semibold min-w-[32px] inline-block text-right">
                 {{ activityTrend >= 0 ? '+' : '' }}{{ activityTrend }}%
               </span>
             </p>
-            <div
-              class="w-2 h-2 rounded-full"
-              :class="[activityTrend >= 0 ? 'bg-teal-400' : 'bg-red-400']"
-            />
+            <div class="flex items-center flex-shrink-0 ml-2">
+              <span class="text-xs mr-1" :class="[activityTrend >= 0 ? 'text-teal-400' : 'text-red-400']">
+                {{ activityTrend >= 0 ? '↑' : '↓' }}
+              </span>
+              <UBadge
+                size="xs"
+                :color="activityTrend >= 0 ? 'teal' : 'red'"
+                variant="subtle" 
+                class="w-2 h-2 p-0 rounded-full"
+              />
+            </div>
           </div>
 
           <div class="flex justify-between items-center">
-            <p :class="[conversionTrend >= 0 ? 'text-teal-400' : 'text-red-400']">
+            <p :class="[conversionTrend >= 0 ? 'text-teal-400' : 'text-red-400']" class="flex-grow">
               Conversion:
-              <span class="font-semibold">
+              <span class="font-semibold min-w-[32px] inline-block text-right">
                 {{ conversionTrend >= 0 ? '+' : '' }}{{ conversionTrend }}%
               </span>
             </p>
-            <div
-              class="w-2 h-2 rounded-full"
-              :class="[conversionTrend >= 0 ? 'bg-teal-400' : 'bg-red-400']"
-            />
+            <div class="flex items-center flex-shrink-0 ml-2">
+              <span class="text-xs mr-1" :class="[conversionTrend >= 0 ? 'text-teal-400' : 'text-red-400']">
+                {{ conversionTrend >= 0 ? '↑' : '↓' }}
+              </span>
+              <UBadge
+                size="xs"
+                :color="conversionTrend >= 0 ? 'teal' : 'red'"
+                variant="subtle"
+                class="w-2 h-2 p-0 rounded-full"
+              />
+            </div>
           </div>
 
           <!-- Signal List -->
-          <div class="mt-4">
-            <p class="text-sky-300 mb-1">
-              Signals detected:
-              <span class="font-semibold">{{ signalCount }}</span>
-            </p>
+          <div class="mt-5">
+            <div class="flex justify-between items-center mb-2">
+              <p class="text-sky-300">
+                Signals detected
+              </p>
+              <UBadge
+                size="xs"
+                color="sky"
+                variant="subtle"
+                class="font-semibold ml-1"
+                style="margin-right: 9px;"
+              >
+                {{ signalCount }}
+              </UBadge>
+            </div>
 
-            <div class="h-32 overflow-y-auto pr-2 signals-container">
+            <div class="h-32 overflow-y-auto pr-2 signals-container scrollbars-hidden">
               <div class="space-y-1">
                 <div
                   v-for="(signal, index) in visibleSignals"
-                  :key="index"
-                  class="flex justify-between items-center text-xs py-1 px-2 rounded"
+                  :key="`signal-${index}`"
+                  class="flex justify-between items-center text-xs py-1.5 px-2.5 rounded transition-all duration-200"
                   :class="[
                     signal.type === 'positive'
-                      ? 'bg-emerald-900/40'
-                      : 'bg-red-900/40'
+                      ? 'bg-emerald-900/40 border-l-2 border-emerald-500'
+                      : 'bg-red-900/40 border-l-2 border-red-500'
                   ]"
+                  role="listitem"
                 >
-                  <span>{{ signal.name }}</span>
+                  <span class="flex-grow">{{ signal.name }}</span>
                   <span
+                    class="font-medium flex-shrink-0 min-w-[32px] text-right"
                     :class="[
                       signal.type === 'positive'
                         ? 'text-emerald-400'
@@ -272,24 +443,24 @@ onBeforeUnmount(() => {
                   </span>
                 </div>
 
-                <!-- Placeholders -->
+                <!-- Placeholders to maintain consistent layout -->
                 <div
-                  v-for="i in Math.max(0, MAX_SIGNALS_DISPLAYED - visibleSignals.length)"
+                  v-for="i in placeholderCount"
                   :key="`empty-${i}`"
-                  class="flex justify-between items-center text-xs py-1 px-2 rounded opacity-0 pointer-events-none"
+                  class="flex justify-between items-center text-xs py-1.5 px-2.5 rounded opacity-0 pointer-events-none h-6"
+                  aria-hidden="true"
                 >
-                  <span>Placeholder</span>
-                  <span>+0</span>
+                  <span class="flex-grow">Placeholder</span>
+                  <span class="flex-shrink-0 min-w-[32px] text-right">+0</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </UPageCard>
+    </UCard>
   </UContainer>
 </template>
-
 
 <style scoped>
 canvas {
@@ -297,13 +468,19 @@ canvas {
   max-height: 100%;
 }
 
+.scorecard-chart-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
 /* Hide scrollbar but maintain scroll functionality */
-.signals-container {
+.scrollbars-hidden {
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
 }
 
-.signals-container::-webkit-scrollbar {
+.scrollbars-hidden::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera */
 }
 </style>
