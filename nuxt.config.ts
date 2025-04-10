@@ -13,7 +13,10 @@ export default defineNuxtConfig({
     enabled: true
   },
 
-  css: ['~/assets/css/main.css'],
+  css: [
+    '~/assets/css/main.css',
+    '@/assets/css/fonts.css',
+  ],
 
   routeRules: {
     '/docs': { redirect: '/docs/getting-started', prerender: false }

@@ -3,6 +3,21 @@
 
 @source "../../../content/**/*";
 
+@layer base {
+  html {
+    font-family: 'Satoshi', sans-serif;
+  }
+
+  h1, h2, h3, h4 {
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  p {
+    line-height: 1.6;
+  }
+}
+
 @theme static {
   --font-sans: 'Public Sans', sans-serif;
 
