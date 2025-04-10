@@ -123,7 +123,7 @@
         </UPageGrid>
       </UPageBody>
     </UPage>
-    <footer class="px-6 py-4 text-sm text-gray-500 dark:text-slate-400 text-center border-t border-gray-200 dark:border-slate-700">
+    <footer class="min-h-[calc(100vh-var(--footer-height))] px-6 py-4 text-sm text-gray-500 dark:text-slate-400 text-center border-t border-gray-200 dark:border-slate-700">
     This is a demo environment. All data shown is fictional and for illustrative purposes only.
   </footer>
   </UContainer>
