@@ -36,7 +36,7 @@ useSeoMeta({
       :reverse="section.reverse"
       :features="section.features"
     >
-      <ImagePlaceholder />
+      <ScoreCard class="border-0"/>
     </UPageSection>
 
     <UPageSection
