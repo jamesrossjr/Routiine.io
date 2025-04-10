@@ -5,15 +5,15 @@ hero:
   title: The Sales System That Turns Strategy Into Action—Daily.
   description: Routiine turns strategy into action—every day. It installs structure, reinforces habits, and operationalizes your sales method across teams. From better qualification to consistent coaching, Routiine makes execution a habit, not a hope.
   links:
-    - label: Get started
-      icon: i-lucide-arrow-right
+    - label: See how it works
+      icon: i-lucide-arrow-down
       trailing: true
-      to: https://ui.nuxt.com/getting-started/installation/pro/nuxt
+      to: #how-it-works
       target: _blank
       size: xl
-    - label: Use this template
-      icon: i-simple-icons-github
-      size: xl
+    - label: Book a Call
+      icon: i-lucide-arrow-right
+      trailing: true
       color: neutral
       variant: subtle
       to: https://github.com/nuxt-ui-pro/saas
