@@ -16,12 +16,16 @@ useHead({
     lang: 'en'
   }
 })
-
 useSeoMeta({
-  titleTemplate: '%s - Routiine.io - Sales Reinvented',
-  ogImage: 'https://saas-template.nuxt.dev/social-card.png',
-  twitterImage: 'https://saas-template.nuxt.dev/social-card.png',
-  twitterCard: 'summary_large_image'
+  title: 'Routiine.io - Sales Reinvented',
+  description: 'Routiine is a sales platform that helps you close deals faster and more efficiently.',
+  ogTitle: 'Routiine.io - Sales Reinvented',
+  ogDescription: 'Routiine is a sales platform that helps you close deals faster and more efficiently.',
+  ogUrl: 'https://routiine.io',
+  ogType: 'website',
+  twitterTitle: 'Routiine.io - Sales Reinvented',
+  twitterDescription: 'Routiine is a sales platform that helps you close deals faster and more efficiently.',
+  twitterUrl: 'https://routiine.io'
 })
 
 const { data: navigation } = await useAsyncData('navigation', () => queryCollectionNavigation('docs'), {
@@ -48,7 +52,7 @@ const links = [{
 provide('navigation', navigation)
 </script>
 
-<template>
+<template #app>
   <UApp>
     <NuxtLoadingIndicator />
 
