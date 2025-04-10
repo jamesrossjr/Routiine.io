@@ -32,7 +32,7 @@ const items = computed(() => [{
     />-->
 
     <template #right>
-      <UColorModeButton />
+      <UColorModeButton as="button" :ui="{}" size="md" :disabled="false"/>
 
       <!--<UButton
         icon="i-lucide-log-in"

@@ -1,10 +1,13 @@
 <template>
   <UContainer class="py-10">
     <UPage>
-      <UPageHeader
-        title="Dashboard"
-        description="Signals, performance, and pipeline intelligence—at a glance."
-      />
+      <header class="bg-white dark:bg-slate-950 border-b border-gray-200 dark:border-slate-800 px-6 pt-4 pb-2 flex items-center justify-between relative">
+        <div class="absolute inset-x-0 top-0 h-[1px] bg-gray-200 dark:bg-slate-700"></div>
+        <div class="flex justify-between items-center w-full">
+          <LogoPro class="w-auto h-6 shrink-0" />
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Dashboard</h2>
+        </div>
+      </header>
 
       <UPageBody>
         <UPageGrid class="gap-6">
