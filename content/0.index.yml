@@ -19,19 +19,19 @@ hero:
       to: https://github.com/nuxt-ui-pro/saas
       target: _blank
 sections:
-  - title: Enterprise-Grade Solutions
-    description: Transform your business with our comprehensive suite of tools. Built for scale, security, and seamless integration, our platform empowers teams to achieve more while maintaining complete control.
+  - title: Real-time clarity on what’s working—and what’s not.
+    description: Track behavioral signals, spot performance gaps, and take action—before deals stall. The Momentum Scorecard gives your team an always-on dashboard for pipeline health and sales discipline.
     id: features
     orientation: horizontal
     features:
-      - name: Developer-First
-        description: Built by developers for developers, with extensive API documentation and flexible integration options.
+      - name: Signal-Powered Scoring
+        description: Automatically evaluates reps based on live activity and buying signals—not just CRM checkboxes
         icon: i-lucide-cog
-      - name: 99.9% Uptime
-        description: Enterprise-grade infrastructure with guaranteed reliability and automatic failover protection.
+      - name:  Dynamic Feedback Loop
+        description: Visualize trends in activity, conversion, and coaching behavior—updated in real time.
         icon: i-lucide-check
-      - name: Bank-Level Security
-        description: SOC 2 Type II certified with end-to-end encryption and advanced threat detection.
+      - name:  Built for Behavior, Not Vanity Metrics
+        description: Momentum reflects effort aligned to outcomes—so reps stay focused and managers coach smarter
         icon: i-lucide-lock
   - title: Optimized for Growth
     description: Scale your business confidently with our enterprise-ready platform. From startups to Fortune 500 companies, we provide the tools and support you need to succeed.
