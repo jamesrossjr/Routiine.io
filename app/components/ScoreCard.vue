@@ -193,16 +193,22 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <UContainer class="py-12 flex justify-center items-center border-0">
-    <UPageCard variant="ghost" class="shadow-lg shadow-none text-center">
-      <div class="w-[320px] sm:w-[360px] md:w-[400px] aspect-[9/18] rounded-[2.5rem] bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white p-6 shadow-xl border-0 flex flex-col justify-between">
+  <UContainer class="py-12 flex justify-center items-center">
+    <UPageCard variant="ghost" class="shadow-none text-center">
+      <div
+        class="w-[320px] sm:w-[360px] md:w-[400px] aspect-[9/18] rounded-[2.5rem] bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white p-6 flex flex-col justify-between"
+      >
         <!-- Header -->
-        <h2 class="text-center text-lg font-bold tracking-tight text-white">Momentum Scorecard</h2>
+        <h2 class="text-center text-lg font-bold tracking-tight text-white">
+          Momentum Scorecard
+        </h2>
 
         <!-- Score Circle -->
         <div class="relative h-40 mt-2">
           <canvas id="scorecardChart" class="w-full h-full" />
-          <div class="absolute inset-0 flex items-center justify-center text-5xl font-bold text-white">
+          <div
+            class="absolute inset-0 flex items-center justify-center text-5xl font-bold text-white"
+          >
             {{ score }}
           </div>
         </div>
@@ -211,35 +217,67 @@ onBeforeUnmount(() => {
         <div class="text-sm mt-4 space-y-3">
           <div class="flex justify-between items-center">
             <p :class="[activityTrend >= 0 ? 'text-teal-400' : 'text-red-400']">
-              Activities: <span class="font-semibold">{{ activityTrend >= 0 ? '+' : '' }}{{ activityTrend }}%</span>
+              Activities:
+              <span class="font-semibold">
+                {{ activityTrend >= 0 ? '+' : '' }}{{ activityTrend }}%
+              </span>
             </p>
-            <div class="w-2 h-2 rounded-full" :class="[activityTrend >= 0 ? 'bg-teal-400' : 'bg-red-400']"></div>
+            <div
+              class="w-2 h-2 rounded-full"
+              :class="[activityTrend >= 0 ? 'bg-teal-400' : 'bg-red-400']"
+            />
           </div>
-          
+
           <div class="flex justify-between items-center">
             <p :class="[conversionTrend >= 0 ? 'text-teal-400' : 'text-red-400']">
-              Conversion: <span class="font-semibold">{{ conversionTrend >= 0 ? '+' : '' }}{{ conversionTrend }}%</span>
+              Conversion:
+              <span class="font-semibold">
+                {{ conversionTrend >= 0 ? '+' : '' }}{{ conversionTrend }}%
+              </span>
             </p>
-            <div class="w-2 h-2 rounded-full" :class="[conversionTrend >= 0 ? 'bg-teal-400' : 'bg-red-400']"></div>
+            <div
+              class="w-2 h-2 rounded-full"
+              :class="[conversionTrend >= 0 ? 'bg-teal-400' : 'bg-red-400']"
+            />
           </div>
-          
-          <!-- Signal List - Fixed height container -->
+
+          <!-- Signal List -->
           <div class="mt-4">
-            <p class="text-sky-300 mb-1">Signals detected: <span class="font-semibold">{{ signalCount }}</span></p>
-            <!-- Fixed height container to prevent layout shifts -->
+            <p class="text-sky-300 mb-1">
+              Signals detected:
+              <span class="font-semibold">{{ signalCount }}</span>
+            </p>
+
             <div class="h-32 overflow-y-auto pr-2 signals-container">
               <div class="space-y-1">
-                <div v-for="(signal, index) in visibleSignals" :key="index" 
-                    class="flex justify-between items-center text-xs py-1 px-2 rounded"
-                    :class="[signal.type === 'positive' ? 'bg-emerald-900/40' : 'bg-red-900/40']">
+                <div
+                  v-for="(signal, index) in visibleSignals"
+                  :key="index"
+                  class="flex justify-between items-center text-xs py-1 px-2 rounded"
+                  :class="[
+                    signal.type === 'positive'
+                      ? 'bg-emerald-900/40'
+                      : 'bg-red-900/40'
+                  ]"
+                >
                   <span>{{ signal.name }}</span>
-                  <span :class="[signal.type === 'positive' ? 'text-emerald-400' : 'text-red-400']">
+                  <span
+                    :class="[
+                      signal.type === 'positive'
+                        ? 'text-emerald-400'
+                        : 'text-red-400'
+                    ]"
+                  >
                     {{ signal.type === 'positive' ? '+' : '' }}{{ signal.impact }}
                   </span>
                 </div>
-                <!-- Placeholder empty items to maintain consistent height when fewer signals -->
-                <div v-for="i in Math.max(0, MAX_SIGNALS_DISPLAYED - visibleSignals.length)" :key="`empty-${i}`"
-                    class="flex justify-between items-center text-xs py-1 px-2 rounded opacity-0 pointer-events-none">
+
+                <!-- Placeholders -->
+                <div
+                  v-for="i in Math.max(0, MAX_SIGNALS_DISPLAYED - visibleSignals.length)"
+                  :key="`empty-${i}`"
+                  class="flex justify-between items-center text-xs py-1 px-2 rounded opacity-0 pointer-events-none"
+                >
                   <span>Placeholder</span>
                   <span>+0</span>
                 </div>
@@ -251,6 +289,7 @@ onBeforeUnmount(() => {
     </UPageCard>
   </UContainer>
 </template>
+
 
 <style scoped>
 canvas {

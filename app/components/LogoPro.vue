@@ -1,38 +1,30 @@
 <template>
-  <div class="flex items-center" role="img" aria-labelledby="rbg-logo">
-    <svg
-      id="routiine_logo"
-      xmlns="http://www.w3.org/2000/svg"
-      xmlns:xlink="http://www.w3.org/1999/xlink"
-      viewBox="0 0 48 48"
-      class="w-[48px] h-[48px]"
-    >
-      <title id="rbg-logo">Routiine LLC</title>
-      <defs>
-        <radialGradient
-          id="radial-gradient"
-          cx="24"
-          cy="24"
-          fx="-3.01"
-          fy="24"
-          r="27.01"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop offset=".11" stop-color="#29a3dc" />
-          <stop offset=".65" stop-color="#006aa2" />
-          <stop offset=".88" stop-color="#083450" />
-          <stop offset="1" stop-color="#062f49" />
-        </radialGradient>
-      </defs>
-      <path
-        d="M26.52,36.09c-.29-.28-.23-.7,0-.88.25-.2.63-.18.87.06l2.9,2.67c1.35,1.25,2.36.58,2.65.33..."
-        fill="url(#radial-gradient)"
-      />
-    </svg>
-    <h2
-      class="font-satoshi-800 hidden md:flex h-12 items-center text-[20px] md:text-[28px] tracking-tight ml-2"
-    >
+  <div class="flex items-center">
+  <svg
+    id="routiine_logo"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    viewBox="0 0 48 48"
+    aria-labelledby="rbg-logo"
+    role="img"
+    class="w-[48px]] h-[48px]"
+  >
+    <title id="routiine-logo">Routiine LLC</title>
+    <defs>
+      <radialGradient id="radial-gradient" cx="24" cy="24" fx="-3.01" fy="24" r="27.01" gradientUnits="userSpaceOnUse">
+        <stop offset=".11" stop-color="#29a3dc" />
+        <stop offset=".65" stop-color="#006aa2" />
+        <stop offset=".88" stop-color="#083450" />
+        <stop offset="1" stop-color="#062f49" />
+      </radialGradient>
+    </defs>
+    <path
+      d="M26.52,36.09c-.29-.28-.23-.7,0-.88.25-.2.63-.18.87.06l2.9,2.67c1.35,1.25,2.36.58,2.65.33.66-.57.78-1.67-.01-2.39l-4.39-4.17c-.08-.08-.1-.2-.11-.31-.06-.47.61-.79.86-.55l4.09,3.79c.84.8,2.1.88,2.93.07,0,0,.02-.02.03-.03.64-.88.6-1.69-.15-2.4l-5.55-4.93c-.15-.14-.07-.36.03-.53.15-.25.47-.29.67-.1l5.72,4.97c.7.66,1.8.58,2.41-.16,0,0,.01-.02.02-.03.56-.67.48-1.67-.16-2.26l-.6-.52s-11.86-11.29-13.02-12.34c-1.15-1.06-2.26-.82-2.98-.48-.72.34-1.83,1.59-2.74,2.64-.91,1.06-2.21,1.59-3.94,1.06s-1.63-2.16-1.15-2.6c.48-.43,1.57-1.36,2.64-2.55,1.85-2.03,2.07-2.83,6.78-3.06,3.22-.16,3.85.42,4.49.83.13.08,1.52,1.21,1.63,1.32,1.69,1.65,11.38,11.09,12.3,11.97l.86.79c.24.22.63.12.73-.18.51-1.44.82-2.95.85-4.53C45.44,9.45,35.7.43,24.02.43S2.09,9.85,2.86,21.58c.1,1.46.42,2.87.93,4.21.16.42.7.54,1.01.22l3.66-3.3c.74-.74,1.91-.89,2.76-.28,1.11.79,1.26,2.35.34,3.27l-4.16,3.83c-.22.22-.37.54-.19.79,0,0,0,0,0,0,.2.27.6.31.84.07l3.52-3.54c.68-.64,2.07-.74,2.94.06l.04.02c.84.84.89,1.95.05,2.78-1.33,1.33-2.89,2.93-3.61,3.57-.24.21-.24.58-.02.8,0,0,0,0,0,0,.18.18.46.18.64,0l3.28-3.14c.83-.83,2.25-.76,3.08.08h0c1.43,1.33.33,2.51.18,2.7l-3.46,3.39c-.24.23-.25.61-.04.86,0,0,.01,0,.01.01.34.19.53.08.82-.19l2.09-2.18c.86-.86,2.02-1.07,3.04-.31,1.26.93,1.05,2.36,0,3.28l-1.86,2.01c-.29.29-.35.58-.04.84,2.3,1.92,3.91,4.36,5.25,6.03.1.12.28.13.38,0,1.37-1.67,2.85-3.98,5.06-5.98.74-.67.75-1.89.03-2.57l-2.96-2.85Z"
+      fill="url(#radial-gradient)"
+    />
+  </svg>
+  <h2 class="font-satoshi-800 hidden md:flex h-12 items-center text-[20px] md:text-[28px] tracking-tight ml-2">
       Routiine.io
     </h2>
-  </div>
+</div>
 </template>
