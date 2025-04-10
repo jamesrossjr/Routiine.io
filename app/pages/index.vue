@@ -13,6 +13,7 @@ useSeoMeta({
 <template>
   <div v-if="page">
     <UPageHero
+      class=".font-satoshi-500"
       :title="page.hero.title"
       :description="page.hero.description"
       :links="page.hero.links"
