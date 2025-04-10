@@ -1,4 +1,5 @@
 <template>
+  <div class="flex items-center">
   <svg
     id="routiine_logo"
     xmlns="http://www.w3.org/2000/svg"
@@ -22,4 +23,8 @@
       fill="url(#radial-gradient)"
     />
   </svg>
+  <h2 class="h-12 flex items-center text-[20px] md:text-[28px] font-bold tracking-tight ml-2">
+    Routiine.io
+  </h2>
+</div>
 </template>

@@ -20,7 +20,8 @@ const items = computed(() => [{
       <NuxtLink to="/">
         <LogoPro class="w-auto h-6 shrink-0" />
       </NuxtLink>
-      <TemplateMenu />
+
+      <!--<TemplateMenu />-->
     </template>
 
     <UNavigationMenu
