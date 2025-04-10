@@ -28,6 +28,7 @@ useSeoMeta({
 
     <UPageSection
       v-for="(section, index) in page.sections"
+      class="font-satoshi-800"
       :key="index"
       :title="section.title"
       :description="section.description"
