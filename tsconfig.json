@@ -1,7 +1,19 @@
 {
   "extends": "./.nuxt/tsconfig.json",
   "compilerOptions": {
-    "module": "esnext",
-    "target": "es2020"
+    "module": "ESNext",
+    "target": "ES2020",
+    "moduleResolution": "node",
+    "types": ["vue", "node"],
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./*"],
+      "@/*": ["./*"]
+    },
+    "allowJs": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "skipLibCheck": true
   }
 }
