@@ -1,7 +1,51 @@
-@font-face {
+/* ===========================
+   Satoshi Variable Font Setup
+   =========================== */
+
+   @font-face {
     font-family: 'Satoshi';
-    src: url('/fonts/satoshi/Satoshi-Variable.woff2') format('woff2');
+    src: url('/fonts/satoshi/Satoshi-Variable.woff2') format('woff2-variations'),
+         url('/fonts/satoshi/Satoshi-Variable.woff2') format('woff2');
     font-weight: 100 900;
     font-style: normal;
     font-display: swap;
+    font-stretch: 100%;
+    ascent-override: 90%;
+    descent-override: 10%;
+    line-gap-override: 0%;
+  }
+  
+  /* ===========================
+     Custom Fine-Tuned Classes
+     =========================== */
+  
+  /* Optional: Base font assignment if needed globally */
+  html {
+    font-family: 'Satoshi', system-ui, sans-serif;
+  }
+  
+  /* Custom font-weight utilities using font-variation-settings */
+  .font-satoshi-400 {
+    font-family: 'Satoshi', sans-serif;
+    font-variation-settings: 'wght' 400;
+  }
+  
+  .font-satoshi-500 {
+    font-family: 'Satoshi', sans-serif;
+    font-variation-settings: 'wght' 500;
+  }
+  
+  .font-satoshi-600 {
+    font-family: 'Satoshi', sans-serif;
+    font-variation-settings: 'wght' 600;
+  }
+  
+  .font-satoshi-700 {
+    font-family: 'Satoshi', sans-serif;
+    font-variation-settings: 'wght' 700;
+  }
+  
+  .font-satoshi-800 {
+    font-family: 'Satoshi', sans-serif;
+    font-variation-settings: 'wght' 800;
   }

@@ -23,7 +23,7 @@
       fill="url(#radial-gradient)"
     />
   </svg>
-  <h2 class="hidden md:flex h-12 items-center text-[20px] md:text-[28px] font-bold tracking-tight ml-2">
+  <h2 class="font-satoshi-800 hidden md:flex h-12 items-center text-[20px] md:text-[28px] tracking-tight ml-2">
       Routiine.io
     </h2>
 </div>
