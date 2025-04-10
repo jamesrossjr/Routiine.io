@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const route = useRoute()
 
+/*
 const items = computed(() => [{
   label: 'Docs',
   to: '/docs',
@@ -12,10 +13,11 @@ const items = computed(() => [{
   label: 'Blog',
   to: '/blog'
 }])
+*/
 </script>
 
 <template>
-  <UHeader>
+  <UHeader ;toggle="false">
     <template #left>
       <NuxtLink to="/">
         <LogoPro class="w-auto h-6 shrink-0" />
@@ -24,15 +26,15 @@ const items = computed(() => [{
       <!--<TemplateMenu />-->
     </template>
 
-    <UNavigationMenu
+    <!--<UNavigationMenu
       :items="items"
       variant="link"
-    />
+    />-->
 
     <template #right>
       <UColorModeButton />
 
-      <UButton
+      <!--<UButton
         icon="i-lucide-log-in"
         color="neutral"
         variant="ghost"
@@ -79,7 +81,7 @@ const items = computed(() => [{
         color="neutral"
         to="/signup"
         block
-      />
+      />-->
     </template>
   </UHeader>
 </template>
