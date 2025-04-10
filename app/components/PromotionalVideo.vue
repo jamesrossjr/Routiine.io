@@ -124,7 +124,11 @@
         </UPageGrid>
       </UPageBody>
     </UPage>
+    <footer class="px-6 py-4 text-sm text-gray-500 dark:text-slate-400 text-center border-t border-gray-200 dark:border-slate-700">
+    This is a demo environment. All data shown is fictional and for illustrative purposes only.
+  </footer>
   </UContainer>
+
 </template>
 
 <script setup lang="ts">
@@ -132,24 +136,52 @@ import { onMounted, nextTick } from 'vue'
 import Chart from 'chart.js/auto'
 
 const clients = [
-  {
+{
     name: 'Acme Corp',
     size: '$42,500',
     lastContact: '2 days ago',
-    stage: 'Final Review',
+    stage: 'Signal Intake',
     progress: 92,
     chartId: 'clientChart1',
     data: [65, 40, 85]
   },
   {
-    name: 'Globex Inc.',
-    size: '$56,000',
-    lastContact: '3 days ago',
-    stage: 'Technical Review',
-    progress: 78,
-    chartId: 'clientChart2',
-    data: [55, 70, 45]
+    name: 'Wayne Enterprises',
+    size: '$88,000',
+    lastContact: '5 days ago',
+    stage: 'Solution Fit & Commitment',
+    progress: 67,
+    chartId: 'clientChart5',
+    data: [30, 65, 78]
+  },
+  {
+    name: 'Stark Industries',
+    size: '$120,000',
+    lastContact: 'Yesterday',
+    stage: 'Close & Launch',
+    progress: 90,
+    chartId: 'clientChart6',
+    data: [75, 85, 95]
+  },
+  {
+    name: 'Oscorp',
+    size: '$47,000',
+    lastContact: '2 weeks ago',
+    stage: 'Post-Sell Success',
+    progress: 58,
+    chartId: 'clientChart7',
+    data: [20, 30, 40]
+  },
+  {
+    name: 'LexCorp',
+    size: '$64,000',
+    lastContact: '3 weeks ago',
+    stage: 'Expansion Opportunity',
+    progress: 73,
+    chartId: 'clientChart8',
+    data: [45, 55, 60]
   }
+  
 ]
 
 const createLineChart = (id: string) => {
