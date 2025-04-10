@@ -23,18 +23,18 @@ const items = computed(() => [{
         <LogoPro class="w-auto h-6 shrink-0" />
       </NuxtLink>
 
-      <!--<TemplateMenu />-->
+      <!-- <TemplateMenu /> -->
     </template>
 
-    <!--<UNavigationMenu
+    <!-- <UNavigationMenu
       :items="items"
       variant="link"
-    />-->
+    /> -->
 
     <template #right>
       <UColorModeButton as="button" :ui="{}" size="md" :disabled="false"/>
 
-      <!--<UButton
+      <!-- <UButton
         icon="i-lucide-log-in"
         color="neutral"
         variant="ghost"
@@ -81,7 +81,7 @@ const items = computed(() => [{
         color="neutral"
         to="/signup"
         block
-      />-->
+      /> -->
     </template>
   </UHeader>
 </template>
