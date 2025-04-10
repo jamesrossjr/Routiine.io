@@ -2,7 +2,7 @@
 const { data: page } = await useAsyncData('index', () => queryCollection('index').first())
 
 useSeoMeta({
-  titleTemplate: '',
+  titleTemplate: 'Routiine.io - Sales Reinvented',
   title: page.value?.title,
   ogTitle: page.value?.title,
   description: page.value?.description,
