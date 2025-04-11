@@ -34,19 +34,19 @@ sections:
         description: Momentum reflects effort aligned to outcomes—so reps stay focused and managers coach smarter
         icon: i-lucide-lock
 sections2:
-  - title: Real-time clarity on what’s working—and what’s not.
-    description: Track behavioral signals, spot performance gaps, and take action—before deals stall. The Momentum Scorecard gives your team an always-on dashboard for pipeline health and sales discipline.
-    id: features
+  - title: Why Signal Discovery Changes Everything
+    description: Unlike traditional analytics that focus on surface-level engagement, this tool analyzes core behavior signals
+    id: signal-discovery
     orientation: horizontal
     features:
-      - name: Signal-Powered Scoring
-        description: Automatically evaluates reps based on live activity and buying signals—not just CRM checkboxes
+      - name: Opportunity Intelligence
+        description: Prioritize the right opportunities in real-time before competitors even notice them
         icon: i-lucide-cog
-      - name:  Dynamic Feedback Loop
-        description: Visualize trends in activity, conversion, and coaching behavior—updated in real time.
+      - name:  Efficiency Maximizer
+        description: Reduce time wasted on prospects showing negative signals and focus on those ready to buy
         icon: i-lucide-check
-      - name:  Built for Behavior, Not Vanity Metrics
-        description: Momentum reflects effort aligned to outcomes—so reps stay focused and managers coach smarter
+      - name:  Forecast Revolution
+        description: Improve forecast accuracy by understanding the true strength of each opportunity
         icon: i-lucide-lock
 features:
   title: Features That Set Us Apart

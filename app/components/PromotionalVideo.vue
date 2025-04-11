@@ -2,9 +2,11 @@
   <UContainer class="py-10">
     <UPage>
       <header class="bg-white dark:bg-slate-950 border-b border-gray-200 dark:border-slate-800 px-6 pt-4 pb-2 flex items-center justify-between relative">
-        <div class="absolute inset-x-0 top-0 h-[1px] bg-gray-200 dark:bg-slate-700"></div>
+        <div class="absolute inset-x-0 top-0 h-[1px] bg-gray-200 dark:bg-slate-700" />
         <div class="flex justify-between items-center w-full">
-          <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Dashboard</h2>
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+            Dashboard
+          </h2>
         </div>
       </header>
 
@@ -12,77 +14,134 @@
         <UPageGrid class="gap-6">
           <!-- Activity Chart -->
           <UCard class="col-span-12 md:col-span-6">
-            <template #header>Monthly Activity vs Conversion</template>
+            <template #header>
+              Monthly Activity vs Conversion
+            </template>
             <ClientOnly>
               <div class="h-48">
-                <canvas id="activityChart" class="w-full h-full" />
+                <canvas
+                  id="activityChart"
+                  class="w-full h-full"
+                />
               </div>
             </ClientOnly>
           </UCard>
 
           <!-- Signal Topics Chart -->
           <UCard class="col-span-12 md:col-span-6">
-            <template #header>Conversation Topics Breakdown</template>
+            <template #header>
+              Conversation Topics Breakdown
+            </template>
             <ClientOnly>
               <div class="h-48">
-                <canvas id="topicsChart" class="w-full h-full" />
+                <canvas
+                  id="topicsChart"
+                  class="w-full h-full"
+                />
               </div>
             </ClientOnly>
           </UCard>
 
           <!-- Learning Hub -->
           <UCard class="col-span-12 md:col-span-4">
-            <template #header>Learning Hub</template>
+            <template #header>
+              Learning Hub
+            </template>
             <ul class="text-sm space-y-2">
               <li class="flex justify-between">
                 <span>Handled Price Objection</span>
-                <UBadge color="emerald" variant="subtle">+3pts</UBadge>
+                <UBadge
+                  color="emerald"
+                  variant="subtle"
+                >
+                  +3pts
+                </UBadge>
               </li>
               <li class="flex justify-between">
                 <span>Improved Signal Discovery</span>
-                <UBadge color="emerald" variant="subtle">+2pts</UBadge>
+                <UBadge
+                  color="emerald"
+                  variant="subtle"
+                >
+                  +2pts
+                </UBadge>
               </li>
               <li class="flex justify-between">
                 <span>Missed Early Framing</span>
-                <UBadge color="rose" variant="subtle">-1pt</UBadge>
+                <UBadge
+                  color="rose"
+                  variant="subtle"
+                >
+                  -1pt
+                </UBadge>
               </li>
               <li class="flex justify-between">
                 <span>Follow-Up Consistency</span>
-                <UBadge color="yellow" variant="subtle">Neutral</UBadge>
+                <UBadge
+                  color="yellow"
+                  variant="subtle"
+                >
+                  Neutral
+                </UBadge>
               </li>
               <li class="flex justify-between">
                 <span>Used Decision Mapping</span>
-                <UBadge color="emerald" variant="subtle">+2pts</UBadge>
+                <UBadge
+                  color="emerald"
+                  variant="subtle"
+                >
+                  +2pts
+                </UBadge>
               </li>
             </ul>
           </UCard>
 
           <!-- Sales Performance Overview -->
           <UCard class="col-span-12 md:col-span-8">
-            <template #header>Sales Performance</template>
+            <template #header>
+              Sales Performance
+            </template>
             <div class="grid grid-cols-2 gap-6 text-sm">
               <div>
-                <div class="text-muted">Deals Closed</div>
-                <div class="text-2xl font-bold text-teal-400">12</div>
+                <div class="text-muted">
+                  Deals Closed
+                </div>
+                <div class="text-2xl font-bold text-teal-400">
+                  12
+                </div>
               </div>
               <div>
-                <div class="text-muted">Revenue Generated</div>
-                <div class="text-2xl font-bold text-teal-400">$84,200</div>
+                <div class="text-muted">
+                  Revenue Generated
+                </div>
+                <div class="text-2xl font-bold text-teal-400">
+                  $84,200
+                </div>
               </div>
               <div>
-                <div class="text-muted">Pipeline Coverage</div>
-                <div class="text-2xl font-bold text-yellow-400">3.1x</div>
+                <div class="text-muted">
+                  Pipeline Coverage
+                </div>
+                <div class="text-2xl font-bold text-yellow-400">
+                  3.1x
+                </div>
               </div>
               <div>
-                <div class="text-muted">Avg. Sales Cycle</div>
-                <div class="text-2xl font-bold text-sky-400">34 days</div>
+                <div class="text-muted">
+                  Avg. Sales Cycle
+                </div>
+                <div class="text-2xl font-bold text-sky-400">
+                  34 days
+                </div>
               </div>
             </div>
           </UCard>
 
           <!-- Conversion Predictions -->
           <UCard class="col-span-12">
-            <template #header>Conversion Predictions</template>
+            <template #header>
+              Conversion Predictions
+            </template>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
               <div
                 v-for="client in clients"
@@ -95,12 +154,15 @@
                     <div
                       class="h-full bg-emerald-400 rounded-full"
                       :style="{ width: client.progress + '%' }"
-                    ></div>
+                    />
                   </div>
                 </div>
                 <ClientOnly>
                   <div class="h-12">
-                    <canvas :id="client.chartId" class="w-full h-full" />
+                    <canvas
+                      :id="client.chartId"
+                      class="w-full h-full"
+                    />
                   </div>
                 </ClientOnly>
                 <ul class="text-xs text-muted mt-2 space-y-1">
@@ -124,10 +186,9 @@
       </UPageBody>
     </UPage>
     <footer class="min-h-[calc(100vh-var(--footer-height))] px-6 py-4 text-sm text-gray-500 dark:text-slate-400 text-center border-t border-gray-200 dark:border-slate-700">
-    This is a demo environment. All data shown is fictional and for illustrative purposes only.
-  </footer>
+      This is a demo environment. All data shown is fictional and for illustrative purposes only.
+    </footer>
   </UContainer>
-
 </template>
 
 <script setup lang="ts">
@@ -135,7 +196,7 @@ import { onMounted, nextTick } from 'vue'
 import Chart from 'chart.js/auto'
 
 const clients = [
-{
+  {
     name: 'Acme Corp',
     size: '$42,500',
     lastContact: '2 days ago',
@@ -180,7 +241,7 @@ const clients = [
     chartId: 'clientChart8',
     data: [45, 55, 60]
   }
-  
+
 ]
 
 const createLineChart = (id: string) => {
@@ -320,7 +381,7 @@ const createClientChart = (id: string, data: number[]) => {
 
 onMounted(async () => {
   await nextTick()
-  clients.forEach(client => {
+  clients.forEach((client) => {
     createClientChart(client.chartId, client.data)
   })
 

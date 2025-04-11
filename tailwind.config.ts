@@ -5,10 +5,10 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Satoshi', ...defaultTheme.fontFamily.sans],
-      },
-    },
-  },
+        sans: ['Satoshi', ...defaultTheme.fontFamily.sans]
+      }
+    }
+  }
 }
 
 export default config

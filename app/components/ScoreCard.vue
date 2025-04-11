@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onBeforeUnmount, nextTick, watch } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import Chart from 'chart.js/auto'
 import type { ChartTypeRegistry, Point, BubbleDataPoint } from 'chart.js'
 
 // Signal type definition
 interface Signal {
-  type: 'positive' | 'negative';
-  name: string;
-  impact: number;
-  timestamp: number;
+  type: 'positive' | 'negative'
+  name: string
+  impact: number
+  timestamp: number
 }
 
 // Constants
@@ -58,7 +58,7 @@ const visibleSignals = computed(() => {
 })
 
 // Generate placeholders to maintain consistent layout
-const placeholderCount = computed(() => 
+const placeholderCount = computed(() =>
   Math.max(0, MAX_SIGNALS_DISPLAYED - visibleSignals.value.length)
 )
 
@@ -91,7 +91,7 @@ const renderChart = () => {
       chartInstance.destroy()
       chartInstance = null
     }
-    
+
     // Create new chart with configuration
     chartInstance = new Chart(ctx, {
       type: 'doughnut',
@@ -131,13 +131,13 @@ const updateChartDisplay = () => {
     renderChart()
     return
   }
-  
+
   try {
     // Use type-safe access to the datasets with null checks
     if (chartInstance.data && chartInstance.data.datasets && chartInstance.data.datasets[0]) {
       chartInstance.data.datasets[0].data = [score.value, 100 - score.value]
       chartInstance.data.datasets[0].backgroundColor = [scoreColor.value, '#1e293b']
-      
+
       // Update with proper animation for smooth transitions
       chartInstance.update('active')
     }
@@ -160,14 +160,14 @@ const animateToTargetScore = () => {
   const difference = Math.abs(targetScore.value - score.value)
   const speedAdjustment = difference > 10 ? 2 : 1 // Speed up larger changes
   const animationDelay = Math.max(10, ANIMATION_SPEED / speedAdjustment)
-  
+
   let lastUpdateTime = 0
-  
+
   // Define the animation function
   const animate = () => {
     const currentTime = Date.now()
     let needsUpdate = false
-    
+
     if (score.value < targetScore.value) {
       score.value++
       needsUpdate = true
@@ -178,17 +178,17 @@ const animateToTargetScore = () => {
       // We've reached the target, no need to continue
       return
     }
-    
+
     // Only update chart at certain intervals to avoid too many redraws
     if (needsUpdate && (currentTime - lastUpdateTime > BATCH_INTERVAL)) {
       updateChartDisplay()
       lastUpdateTime = currentTime
     }
-    
+
     // Continue animation with setTimeout for better control
     animationTimeoutId = window.setTimeout(animate, animationDelay)
   }
-  
+
   // Start the animation
   animate()
 }
@@ -210,7 +210,7 @@ const getRandomSignal = (positive: boolean): Signal => {
     { type: 'positive' as const, name: 'Product clicked', impact: 2 },
     { type: 'positive' as const, name: 'Download initiated', impact: 4 }
   ]
-  
+
   const negSignals = [
     { type: 'negative' as const, name: 'Abandoned cart', impact: -4 },
     { type: 'negative' as const, name: 'Bounce detected', impact: -3 },
@@ -228,7 +228,7 @@ const getRandomSignal = (positive: boolean): Signal => {
     name: positive ? 'Default positive signal' : 'Default negative signal',
     impact: positive ? 3 : -3
   }
-  
+
   return {
     type: signal.type,
     name: signal.name,
@@ -241,7 +241,7 @@ const getRandomSignal = (positive: boolean): Signal => {
 const simulateBackendProcessing = () => {
   // Random chance to add or remove signals
   const action = Math.random()
-  
+
   if (action > 0.8 && signals.value.length > 3) {
     // Remove a signal (20% chance if we have more than 3 signals)
     const indexToRemove = Math.floor(Math.random() * signals.value.length)
@@ -252,12 +252,12 @@ const simulateBackendProcessing = () => {
     const newSignal = getRandomSignal(isPositive)
     signals.value.push(newSignal)
   }
-  
+
   // Debounce score updates to prevent excessive chart redraws
   if (chartUpdateTimeoutId !== null) {
     window.clearTimeout(chartUpdateTimeoutId)
   }
-  
+
   chartUpdateTimeoutId = window.setTimeout(() => {
     // Update target score based on new signals
     setTargetScore(calculateScore())
@@ -271,17 +271,17 @@ const cleanup = () => {
     chartInstance.destroy()
     chartInstance = null
   }
-  
+
   if (animationTimeoutId !== null) {
     window.clearTimeout(animationTimeoutId)
     animationTimeoutId = null
   }
-  
+
   if (automationIntervalId !== null) {
     window.clearInterval(automationIntervalId)
     automationIntervalId = null
   }
-  
+
   if (chartUpdateTimeoutId !== null) {
     window.clearTimeout(chartUpdateTimeoutId)
     chartUpdateTimeoutId = null
@@ -289,7 +289,7 @@ const cleanup = () => {
 }
 
 // Manual signal addition - useful for external triggers
-const addSignal = (type: 'positive' | 'negative', name: string, impact: number) => {
+const _addSignal = (type: 'positive' | 'negative', name: string, impact: number) => {
   signals.value.push({
     type,
     name,
@@ -302,21 +302,21 @@ const addSignal = (type: 'positive' | 'negative', name: string, impact: number) 
 // Setup mounted with improved initialization
 onMounted(async () => {
   await nextTick()
-  
+
   // Set initial values
   score.value = 0
-  
+
   // Initialize chart after DOM is fully rendered
   renderChart()
-  
+
   // Set initial score target based on current signals and update directly
   const initialScore = calculateScore()
   targetScore.value = initialScore
   score.value = initialScore
-  
+
   // Update the chart once with initial values
   updateChartDisplay()
-  
+
   // Set up automatic signal processing simulation
   automationIntervalId = window.setInterval(() => {
     simulateBackendProcessing()
@@ -330,7 +330,30 @@ onBeforeUnmount(cleanup)
 <template>
   <UContainer class="py-12 flex justify-center items-center">
     <UCard
-      :ui="{ base: 'shadow-none text-center' }"
+      :ui="{
+        base: 'shadow-none text-center',
+        rounded: 'rounded-lg',
+        shadow: '',
+        padding: 'p-4',
+        header: {
+          base: '',
+          padding: 'px-4 py-1.5 sm:px-6 sm:py-2',
+          rounded: '-mx-4 -mt-4 sm:-mx-6 sm:-mt-6',
+          shadow: 'shadow-sm',
+          border: 'border-b',
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          paddingIcon: 'pe-2',
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          sizeIcon: 'h-4 w-4'
+        },
+        footer: {
+          base: '',
+          padding: 'px-4 py-3 sm:px-6 sm:py-4',
+          rounded: '-mx-4 -mb-4 sm:-mx-6 sm:-mb-6',
+          shadow: 'shadow-sm',
+          border: 'border-t'
+        }
+      }"
       class="bg-transparent border-0"
     >
       <div
@@ -339,19 +362,34 @@ onBeforeUnmount(cleanup)
         role="region"
       >
         <!-- Header -->
-        <UHeading tag="h2" size="lg" class="text-center tracking-tight text-white">
+        <UHeading
+          tag="h2"
+          size="lg"
+          class="text-center tracking-tight text-white"
+        >
           Momentum Scorecard
         </UHeading>
 
         <!-- Score Circle -->
-        <div class="relative h-40 mt-2" aria-label="Score Meter">
+        <div
+          class="relative h-40 mt-2"
+          aria-label="Score Meter"
+        >
           <div class="scorecard-chart-container w-full h-full">
-            <canvas id="scorecardChart" role="img" aria-label="Score Visualization"></canvas>
+            <canvas
+              id="scorecardChart"
+              role="img"
+              aria-label="Score Visualization"
+            />
           </div>
           <div
             class="absolute inset-0 flex flex-col items-center justify-end pb-2"
           >
-            <span class="text-6xl font-bold" :style="`color: ${scoreColor}`" aria-live="polite">
+            <span
+              class="text-6xl font-bold"
+              :style="`color: ${scoreColor}`"
+              aria-live="polite"
+            >
               {{ score }}
             </span>
             <span class="text-xs text-slate-400 mt-1">momentum score</span>
@@ -361,34 +399,46 @@ onBeforeUnmount(cleanup)
         <!-- Stats -->
         <div class="text-sm mt-6 space-y-3">
           <div class="flex justify-between items-center">
-            <p :class="[activityTrend >= 0 ? 'text-teal-400' : 'text-red-400']" class="flex-grow">
+            <p
+              :class="[activityTrend >= 0 ? 'text-teal-400' : 'text-red-400']"
+              class="flex-grow"
+            >
               Activities:
               <span class="font-semibold min-w-[32px] inline-block text-right">
                 {{ activityTrend >= 0 ? '+' : '' }}{{ activityTrend }}%
               </span>
             </p>
             <div class="flex items-center flex-shrink-0 ml-2">
-              <span class="text-xs mr-1" :class="[activityTrend >= 0 ? 'text-teal-400' : 'text-red-400']">
+              <span
+                class="text-xs mr-1"
+                :class="[activityTrend >= 0 ? 'text-teal-400' : 'text-red-400']"
+              >
                 {{ activityTrend >= 0 ? '↑' : '↓' }}
               </span>
               <UBadge
                 size="xs"
                 :color="activityTrend >= 0 ? 'teal' : 'red'"
-                variant="subtle" 
+                variant="subtle"
                 class="w-2 h-2 p-0 rounded-full"
               />
             </div>
           </div>
 
           <div class="flex justify-between items-center">
-            <p :class="[conversionTrend >= 0 ? 'text-teal-400' : 'text-red-400']" class="flex-grow">
+            <p
+              :class="[conversionTrend >= 0 ? 'text-teal-400' : 'text-red-400']"
+              class="flex-grow"
+            >
               Conversion:
               <span class="font-semibold min-w-[32px] inline-block text-right">
                 {{ conversionTrend >= 0 ? '+' : '' }}{{ conversionTrend }}%
               </span>
             </p>
             <div class="flex items-center flex-shrink-0 ml-2">
-              <span class="text-xs mr-1" :class="[conversionTrend >= 0 ? 'text-teal-400' : 'text-red-400']">
+              <span
+                class="text-xs mr-1"
+                :class="[conversionTrend >= 0 ? 'text-teal-400' : 'text-red-400']"
+              >
                 {{ conversionTrend >= 0 ? '↑' : '↓' }}
               </span>
               <UBadge

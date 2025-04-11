@@ -52,7 +52,7 @@ const links = [{
 provide('navigation', navigation)
 </script>
 
-<template #app>
+<template id="app">
   <UApp>
     <NuxtLoadingIndicator />
 

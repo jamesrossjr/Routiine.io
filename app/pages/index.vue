@@ -20,7 +20,6 @@ useSeoMeta({
     >
       <template #top>
         <div class="absolute rounded-full dark:bg-(--ui-primary) blur-[300px] size-60 sm:size-80 transform -translate-x-1/2 left-1/2 -translate-y-80" />
-
       </template>
 
       <PromotionalVideo />
@@ -28,20 +27,20 @@ useSeoMeta({
 
     <UPageSection
       v-for="(section, index) in page.sections"
-      class="font-satoshi-800"
       :key="index"
+      class="font-satoshi-800"
       :title="section.title"
       :description="section.description"
       :orientation="section.orientation"
       :reverse="section.reverse"
       :features="section.features"
     >
-      <ScoreCard class="border-0"/>
+      <ScoreCard class="border-0" />
     </UPageSection>
     <UPageSection
-      v-for="(sections2, index) in page.sections"
-      class="font-satoshi-800"
+      v-for="(sections2, index) in page.sections2"
       :key="index"
+      class="font-satoshi-800"
       :title="sections2.title"
       :description="sections2.description"
       :orientation="sections2.orientation"
@@ -97,7 +96,6 @@ useSeoMeta({
       class="overflow-hidden"
     >
       <div class="absolute rounded-full dark:bg-(--ui-primary) blur-[250px] size-40 sm:size-50 transform -translate-x-1/2 left-1/2 -translate-y-80" />
-
     </UPageCTA>
   </div>
 </template>

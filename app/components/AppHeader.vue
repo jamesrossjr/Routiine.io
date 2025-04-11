@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const route = useRoute()
+// const route = useRoute()
 
 /*
 const items = computed(() => [{
@@ -32,7 +32,12 @@ const items = computed(() => [{
     /> -->
 
     <template #right>
-      <UColorModeButton as="button" :ui="{}" size="md" :disabled="false"/>
+      <UColorModeButton
+        as="button"
+        :ui="{}"
+        size="md"
+        :disabled="false"
+      />
 
       <!-- <UButton
         icon="i-lucide-log-in"
