@@ -1,9 +1,10 @@
 title: Routiine.io - Sales Reinvented
 description: Routiine transforms sales strategy into execution through structured behavior systems.
 navigation: false
+
 hero:
   title: The Sales System That Turns Strategy Into Action—Daily.
-  description: Routiine turns strategy into action—every day. It installs structure, reinforces habits, and operationalizes your sales method across teams. From better qualification to consistent coaching, Routiine makes execution a habit, not a hope.
+  description: Routiine turns strategy into action—every day. It installs structure, reinforces habits, and operationalizes your sales method across teams. From sharper qualification to consistent coaching, Routiine turns execution into a habit—not a hope.
   links:
     - label: See how it works
       icon: i-lucide-arrow-down
@@ -12,139 +13,115 @@ hero:
       target: _blank
       size: xl
     - label: Book a Call
-      icon: i-lucide-arrow-right
-      trailing: true
+      icon: i-lucide-phone
+      trailing: false
       color: neutral
       variant: subtle
-      to: https://github.com/nuxt-ui-pro/saas
-      target: _blank
+      to: #dashboard
+      target: _self
+
 sections:
   - title: Real-time clarity on what’s working—and what’s not.
     description: Track behavioral signals, spot performance gaps, and take action—before deals stall. The Momentum Scorecard gives your team an always-on dashboard for pipeline health and sales discipline.
-    id: features
+    id: momentum-features
     orientation: horizontal
     features:
       - name: Signal-Powered Scoring
-        description: Automatically evaluates reps based on live activity and buying signals—not just CRM checkboxes
+        description: Automatically evaluates reps based on live activity and buying signals—not just CRM checkboxes.
         icon: i-lucide-cog
-      - name:  Dynamic Feedback Loop
+      - name: Dynamic Feedback Loop
         description: Visualize trends in activity, conversion, and coaching behavior—updated in real time.
         icon: i-lucide-check
-      - name:  Built for Behavior, Not Vanity Metrics
-        description: Momentum reflects effort aligned to outcomes—so reps stay focused and managers coach smarter
+      - name: Built for Behavior, Not Vanity Metrics
+        description: Momentum reflects effort aligned to outcomes—so reps stay focused and managers coach smarter.
         icon: i-lucide-lock
-sections2:
+
+signalDiscoverySection:
   - title: Why Signal Discovery Changes Everything
-    description: Unlike traditional analytics that focus on surface-level engagement, this tool analyzes core behavior signals
+    description: Unlike traditional analytics that focus on surface-level engagement, this tool analyzes core behavior signals that drive actual sales outcomes.
     id: signal-discovery
     orientation: horizontal
     features:
       - name: Opportunity Intelligence
-        description: Prioritize the right opportunities in real-time before competitors even notice them
+        description: Prioritize the right opportunities in real-time—before competitors even notice them.
         icon: i-lucide-cog
-      - name:  Efficiency Maximizer
-        description: Reduce time wasted on prospects showing negative signals and focus on those ready to buy
+      - name: Efficiency Maximizer
+        description: Reduce time wasted on prospects showing negative signals and focus on those ready to buy.
         icon: i-lucide-check
-      - name:  Forecast Revolution
-        description: Improve forecast accuracy by understanding the true strength of each opportunity
+      - name: Forecast Revolution
+        description: Improve forecast accuracy by understanding the true strength of each opportunity.
         icon: i-lucide-lock
+
 features:
   title: Features That Set Us Apart
-  description: Our platform combines enterprise-grade reliability with developer-friendly features, providing everything you need to build and scale your applications.
+  id: core-features
+  description: Routiine.io delivers a complete Sales Operating System—merging habit-building, CRM integration, and signal-based coaching—to embed high-performance behaviors into your daily workflow.
   items:
-    - title: Developer Experience
-      description: Comprehensive documentation, powerful CLI tools, and intuitive APIs that make development a joy.
+    - title: Sales OS Integration
+      description: Connects seamlessly with your CRM to track behaviors, surface signals, and align activities with outcomes—automatically.
       icon: i-lucide-cog
-    - title: Enterprise Ready
-      description: SOC 2 Type II certified, GDPR compliant, with 24/7 enterprise support and dedicated success managers.
-      icon: i-lucide-check
-    - title: Advanced Security
-      description: Multi-factor authentication, role-based access control, and audit logs keep your data protected.
-      icon: i-lucide-lock
-    - title: Global Performance
-      description: Edge computing network spans 200+ locations ensuring lightning-fast response times worldwide.
-      icon: i-lucide-rocket
-    - title: Flexible Pricing
-      description: Pay only for what you use with transparent pricing and no long-term commitments required.
-      icon: i-lucide-circle-dollar-sign
-    - title: Infinite Scalability
-      description: Built on cloud-native architecture that automatically scales to meet any demand.
-      icon: i-lucide-chart-bar
+    - title: Behavior-Based Coaching
+      description: Reinforces the right habits through scheduled check-ins, personalized nudges, and workflow-embedded training modules.
+      icon: i-lucide-brain
+    - title: Signal Detection Engine
+      description: Our system identifies high-leverage buyer signals in real time—so your reps spend time where it matters most.
+      icon: i-lucide-radar
+    - title: Adaptive Playbooks
+      description: Playbooks evolve dynamically based on stage signals, ensuring reps always know what to do next—with clarity and confidence.
+      icon: i-lucide-compass
+    - title: Scorecard-Driven Insights
+      description: Momentum Scorecards connect activity to conversion, showing which behaviors drive results—and which don’t.
+      icon: i-lucide-bar-chart
+    - title: Modular & Scalable
+      description: Built to grow with your team—start with a single team or deploy company-wide. Add modules as you scale.
+      icon: i-lucide-layers
+
 testimonials:
   headline: Customer Success Stories
-  title: Trusted by Industry Leaders
-  description: Join thousands of companies worldwide who have transformed their digital presence with our platform.
+  title: Trusted by Modern Sales Teams
+  description: See how forward-thinking companies are using Routiine to turn sales strategies into repeatable execution.
   items:
-    - quote: "The developer experience is unmatched. We migrated our entire infrastructure in weeks instead of months, and our team's productivity has increased dramatically. The TypeScript support and component library saved us months of development time."
+    - quote: "Routiine gave us visibility we didn’t know we were missing. Our forecast accuracy jumped 30% in the first quarter just by tracking buyer signals instead of assumptions."
       user:
-        name: Sarah Chen
-        description: CTO at TechScale Solutions
+        name: Alicia Park
+        description: VP of Sales at ClarityIQ
         avatar:
-          src: https://i.pravatar.cc/120?img=1
-    - quote: "After implementing the edge computing features, our global application response times dropped by 70%. Our European and Asian markets saw immediate improvements in user engagement and conversion rates."
+          src: https://i.pravatar.cc/120?img=15
+    - quote: "Momentum Scorecards transformed how our managers coach. Instead of lagging KPIs, we now coach based on effort and direction—daily."
       user:
-        name: Marcus Rodriguez
-        description: VP of Engineering at DataFlow
+        name: Daniel James
+        description: Head of Sales Enablement at RevCore
         avatar:
-          src: https://i.pravatar.cc/120?img=7
-    - quote: "The platform's security features gave us peace of mind during our SOC 2 certification. The built-in compliance tools and audit logs made the process seamless."
+          src: https://i.pravatar.cc/120?img=16
+    - quote: "Our sales stages used to be a checklist. Now they adapt to buyer behavior in real time, and our reps always know the next best move."
       user:
-        name: David Kumar
-        description: Security Director at SecureStack
+        name: Nina Alvarez
+        description: Director of Revenue Operations at Nexwell
         avatar:
-          src: https://i.pravatar.cc/120?img=3
-    - quote: "During our Black Friday sale, we handled 15x our normal traffic without a hitch. The auto-scaling features worked flawlessly, and our monitoring dashboard gave us real-time insights throughout the event."
+          src: https://i.pravatar.cc/120?img=17
+    - quote: "Within weeks of installing Routiine, our deal velocity increased and manager one-on-ones became coaching conversations, not just reviews."
       user:
-        name: Emily Zhang
-        description: Lead Architect at ScaleForce
+        name: Josh Patel
+        description: CRO at ThriveLoop
         avatar:
-          src: https://i.pravatar.cc/120?img=5
-    - quote: "The support team goes above and beyond. They helped us optimize our CI/CD pipeline and suggested performance improvements that reduced our build times by 45%."
+          src: https://i.pravatar.cc/120?img=18
+    - quote: "The daily sales signals dashboard holds everyone accountable—without micromanagement. It’s structured, smart, and scalable."
       user:
-        name: James Wilson
-        description: DevOps Lead at CloudPro
+        name: Naomi Sinclair
+        description: Sales Manager at GrowthOrbit
         avatar:
-          src: https://i.pravatar.cc/120?img=8
-    - quote: "Switching to this platform reduced our infrastructure costs by 40% while improving performance. The cost savings alone paid for the investment within the first quarter."
-      user:
-        name: Lisa Patel
-        description: CEO at AutoScale
-        avatar:
-          src: https://i.pravatar.cc/120?img=9
-    - quote: "The accessibility features and responsive components helped us achieve WCAG 2.1 compliance with minimal custom development. Our site now scores 100 on Lighthouse accessibility metrics."
-      user:
-        name: Michael Torres
-        description: Frontend Lead at AccessFirst
-        avatar:
-          src: https://i.pravatar.cc/120?img=11
-    - quote: "We serve millions of API requests daily, and the real-time analytics and monitoring tools have been invaluable for optimizing our performance and identifying bottlenecks."
-      user:
-        name: Rachel Kim
-        description: Performance Engineer at APIHub
-        avatar:
-          src: https://i.pravatar.cc/120?img=10
-    - quote: "The component library and design system tools helped us maintain consistency across our 20+ micro-frontends. Our development velocity has never been better."
-      user:
-        name: Thomas Weber
-        description: UI Architecture Lead at DesignScale
-        avatar:
-          src: https://i.pravatar.cc/120?img=12
-    - quote: "Integration with our existing tools was seamless. The webhooks and API documentation made it easy to automate our workflows and enhance our development pipeline."
-      user:
-        name: Sophia Martinez
-        description: Integration Specialist at TechFlow
-        avatar:
-          src: https://i.pravatar.cc/120?img=14
+          src: https://i.pravatar.cc/120?img=19
+
 cta:
-  title: Start with Nuxt UI Pro today!
-  description: Nuxt UI Pro is free in development, but you need a license to use it in production.
+  title: Turn Strategy Into Action with Routiine
+  description: Book a live walkthrough and see how Routiine helps your team drive consistent execution—every day.
   links:
-    - label: Buy now
-      to: 'https://ui.nuxt.com/pro/purchase'
+    - label: Book a Call
+      to: 'https://routiine.io/book'
+      icon: i-lucide-phone
       target: _blank
-      icon: i-lucide-shopping-cart
-    - label: License
-      to: 'https://ui.nuxt.com/getting-started/license'
-      trailingIcon: i-lucide-circle-help
-      target: _blank
+    - label: Learn More
+      to: '#how-it-works'
+      trailingIcon: i-lucide-arrow-right
+      target: _self
       variant: subtle

@@ -89,7 +89,7 @@ export const collections = {
           reverse: z.boolean().optional()
         })
       ),
-      sections2: z.array(
+      signalDiscoverySection: z.array(
         sectionSchema.extend({
           id: z.string().nonempty(),
           orientation: orientationEnum.optional(),

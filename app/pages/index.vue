@@ -38,14 +38,14 @@ useSeoMeta({
       <ScoreCard class="border-0" />
     </UPageSection>
     <UPageSection
-      v-for="(sections2, index) in page.sections2"
+      v-for="(signalDiscoverySection, index) in page.signalDiscoverySection"
       :key="index"
       class="font-satoshi-800"
-      :title="sections2.title"
-      :description="sections2.description"
-      :orientation="sections2.orientation"
+      :title="signalDiscoverySection.title"
+      :description="signalDiscoverySection.description"
+      :orientation="signalDiscoverySection.orientation"
       reverse
-      :features="sections2.features"
+      :features="signalDiscoverySection.features"
     >
       <DiscoveryTracker />
     </UPageSection>
