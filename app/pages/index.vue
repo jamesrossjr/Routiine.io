@@ -48,7 +48,7 @@ useSeoMeta({
       reverse
       :features="sections2.features"
     >
-      <ScoreCard class="border-0"/>
+      <DiscoveryTracker />
     </UPageSection>
 
     <UPageSection

@@ -4,7 +4,7 @@
     "module": "ESNext",
     "target": "ES2020",
     "moduleResolution": "node",
-    "types": ["vue", "node", "@nuxt/devtools"],
+    "types": ["vue", "node"],
     "baseUrl": ".",
     "paths": {
       "~/*": ["./*"],
