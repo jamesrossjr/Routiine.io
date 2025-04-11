@@ -1,12 +1,14 @@
-// tailwind.config.ts
+import type { Config } from 'tailwindcss'
 import defaultTheme from 'tailwindcss/defaultTheme'
 
-export default {
+const config: Config = {
   theme: {
     extend: {
       fontFamily: {
         sans: ['Satoshi', ...defaultTheme.fontFamily.sans],
-      }
-    }
-  }
+      },
+    },
+  },
 }
+
+export default config

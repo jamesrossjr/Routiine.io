@@ -89,6 +89,15 @@ export const collections = {
           reverse: z.boolean().optional()
         })
       ),
+      sections2: z.array(
+        sectionSchema.extend({
+          id: z.string().nonempty(),
+          orientation: orientationEnum.optional(),
+          features: z.array(featureItemSchema),
+          links: z.array(linkSchema),
+          reverse: z.boolean().optional()
+        })
+      ),
       features: sectionSchema.extend({
         items: z.array(featureItemSchema)
       }),

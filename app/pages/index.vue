@@ -38,6 +38,18 @@ useSeoMeta({
     >
       <ScoreCard class="border-0"/>
     </UPageSection>
+    <UPageSection
+      v-for="(sections2, index) in page.sections"
+      class="font-satoshi-800"
+      :key="index"
+      :title="sections2.title"
+      :description="sections2.description"
+      :orientation="sections2.orientation"
+      reverse
+      :features="sections2.features"
+    >
+      <ScoreCard class="border-0"/>
+    </UPageSection>
 
     <UPageSection
       :title="page.features.title"

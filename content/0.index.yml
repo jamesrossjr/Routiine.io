@@ -33,20 +33,21 @@ sections:
       - name:  Built for Behavior, Not Vanity Metrics
         description: Momentum reflects effort aligned to outcomes—so reps stay focused and managers coach smarter
         icon: i-lucide-lock
-  - title: Optimized for Growth
-    description: Scale your business confidently with our enterprise-ready platform. From startups to Fortune 500 companies, we provide the tools and support you need to succeed.
+sections2:
+  - title: Real-time clarity on what’s working—and what’s not.
+    description: Track behavioral signals, spot performance gaps, and take action—before deals stall. The Momentum Scorecard gives your team an always-on dashboard for pipeline health and sales discipline.
+    id: features
     orientation: horizontal
-    reverse: true
     features:
-      - name: Lightning Fast
-        description: Global CDN with sub-100ms latency and automatic performance optimization.
-        icon: i-lucide-rocket
-      - name: Predictable Pricing
-        description: Transparent, usage-based pricing with no hidden fees and volume discounts.
-        icon: i-lucide-circle-dollar-sign
-      - name: Infinite Scale
-        description: Auto-scaling architecture handles millions of requests without breaking a sweat.
-        icon: i-lucide-chart-bar
+      - name: Signal-Powered Scoring
+        description: Automatically evaluates reps based on live activity and buying signals—not just CRM checkboxes
+        icon: i-lucide-cog
+      - name:  Dynamic Feedback Loop
+        description: Visualize trends in activity, conversion, and coaching behavior—updated in real time.
+        icon: i-lucide-check
+      - name:  Built for Behavior, Not Vanity Metrics
+        description: Momentum reflects effort aligned to outcomes—so reps stay focused and managers coach smarter
+        icon: i-lucide-lock
 features:
   title: Features That Set Us Apart
   description: Our platform combines enterprise-grade reliability with developer-friendly features, providing everything you need to build and scale your applications.
