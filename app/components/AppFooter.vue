@@ -51,7 +51,7 @@ function onSubmit() {
 </script>
 
 <template>
-  <SeparatorIcon />
+  <USeparator />
   <UFooter :ui="{ top: 'border-b border-[var(--ui-border)]' }">
  <!-- <template #top>
       <UContainer>
