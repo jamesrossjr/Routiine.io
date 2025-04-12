@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import SeparatorIcon from '../components/SeparatorIcon.vue';
+
 const { data: page } = await useAsyncData('index', () => queryCollection('index').first())
 
 useSeoMeta({
@@ -88,7 +90,7 @@ useSeoMeta({
       </UPageColumns>
     </UPageSection>
 
-    <USeparator />
+    <SeparatorIcon />
 
     <UPageCTA
       v-bind="page.cta"

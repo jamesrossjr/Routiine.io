@@ -21,7 +21,8 @@ const columns = [{
   }, {
     label: 'Sponsors'
   }]
-}, {
+},
+{
   label: 'Company',
   children: [{
     label: 'About'
@@ -50,12 +51,9 @@ function onSubmit() {
 </script>
 
 <template>
-  <USeparator
-    icon="i-simple-icons-nuxtdotjs"
-    class="h-px"
-  />
+  <SeparatorIcon />
   <UFooter :ui="{ top: 'border-b border-[var(--ui-border)]' }">
-    <template #top>
+ <!-- <template #top>
       <UContainer>
         <UFooterColumns :columns="columns">
           <template #right>
@@ -85,7 +83,7 @@ function onSubmit() {
           </template>
         </UFooterColumns>
       </UContainer>
-    </template>
+    </template> -->
 
     <template #left>
       <p class="text-(--ui-text-muted) text-sm">
@@ -93,17 +91,18 @@ function onSubmit() {
       </p>
     </template>
 
-    <template #right>
+   <!-- <template #right>
       <UColorModeButton />
 
-      <UButton
-        to="https://github.com/nuxt-ui-pro/saas"
+        <UButton
+        to="/"
         target="_blank"
         icon="i-simple-icons-github"
         aria-label="GitHub"
         color="neutral"
         variant="ghost"
       />
-    </template>
+    </template> -->
   </UFooter>
 </template>
+

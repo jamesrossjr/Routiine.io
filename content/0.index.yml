@@ -4,12 +4,12 @@ navigation: false
 
 hero:
   title: The Sales System That Turns Strategy Into Action—Daily.
-  description: Routiine turns strategy into action—every day. It installs structure, reinforces habits, and operationalizes your sales method across teams. From sharper qualification to consistent coaching, Routiine turns execution into a habit—not a hope.
+  description: Routiine turns strategy into action—every day. It installs structure, reinforces habits, and operationalizes your sales method across teams. Whether it’s sharper qualification or consistent coaching, Routiine turns execution into a habit—not a hope.
   links:
     - label: See how it works
       icon: i-lucide-arrow-down
       trailing: true
-      to: #how-it-works
+      to: #dashboard
       target: _blank
       size: xl
     - label: Book a Call
@@ -17,7 +17,7 @@ hero:
       trailing: false
       color: neutral
       variant: subtle
-      to: #dashboard
+      to: https://routiine.io/book
       target: _self
 
 sections:
@@ -105,12 +105,6 @@ testimonials:
         description: CRO at ThriveLoop
         avatar:
           src: https://i.pravatar.cc/120?img=18
-    - quote: "The daily sales signals dashboard holds everyone accountable—without micromanagement. It’s structured, smart, and scalable."
-      user:
-        name: Naomi Sinclair
-        description: Sales Manager at GrowthOrbit
-        avatar:
-          src: https://i.pravatar.cc/120?img=19
 
 cta:
   title: Turn Strategy Into Action with Routiine
