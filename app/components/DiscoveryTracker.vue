@@ -439,7 +439,7 @@ onBeforeUnmount(() => {
                 :disabled="assessedCount === 0"
                 @click="resetDiscovery"
               >
-                Reset Discovery
+                Reset
               </button>
 
               <button
@@ -447,7 +447,7 @@ onBeforeUnmount(() => {
                 :disabled="assessedCount < signalPoints.length"
                 :class="assessedCount < signalPoints.length ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700'"
               >
-                Save Discovery
+                Save
               </button>
             </div>
           </div>
