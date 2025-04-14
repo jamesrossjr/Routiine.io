@@ -37,7 +37,7 @@ export default defineEventHandler(async (event) => {
     const connectionId = await saveConnection({
       userId: event.context.auth?.userId, // Assuming authentication middleware
       platform,
-      connectionToken: connection.token,
+      connectionToken: connection.token || '',
       settings: settings || {},
       createdAt: new Date()
     })

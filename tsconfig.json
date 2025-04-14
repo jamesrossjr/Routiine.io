@@ -3,12 +3,13 @@
   "compilerOptions": {
     "module": "ESNext",
     "target": "ES2020",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "types": ["vue", "node", "@nuxt/devtools"],
     "baseUrl": ".",
     "paths": {
       "~/*": ["./*"],
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "chart.js/auto": ["node_modules/chart.js/auto"]
     },
     "allowJs": true,
     "esModuleInterop": true,
@@ -16,4 +17,5 @@
     "isolatedModules": true,
     "skipLibCheck": true
   }
+  
 }

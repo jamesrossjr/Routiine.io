@@ -9,8 +9,8 @@ hero:
     - label: See how it works
       icon: i-lucide-arrow-down
       trailing: true
-      to: #dashboard
-      target: _blank
+      to: #dashboard 
+      target: _self
       size: xl
     - label: Book a Call
       icon: i-lucide-phone

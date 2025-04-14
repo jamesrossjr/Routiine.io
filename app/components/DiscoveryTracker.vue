@@ -3,6 +3,11 @@ import { ref, computed, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import Chart from 'chart.js/auto'
 import type { Chart as ChartJS } from 'chart.js'
 
+const containerClass = computed(() => 
+  colorMode.value === 'dark' 
+    ? 'bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white'
+    : 'bg-gradient-to-b from-slate-100 via-slate-100 to-slate-100 text-slate-900'
+)
 // Signal point interface
 interface SignalPoint {
   id: string
@@ -113,6 +118,9 @@ const currentScore = ref(0)
 let signalChart: ChartJS | null = null
 let animationTimeoutId: number | null = null
 
+// Get color mode from Nuxt
+const colorMode = useColorMode()
+
 // Constants
 const MAX_POSSIBLE_TOTAL = 35 // Maximum total score (7 signals × 5 max rating)
 
@@ -194,7 +202,7 @@ const intensityColor = computed(() => {
 
 // Get indicator color for a signal
 function getSignalIndicatorColor(signal: SignalPoint): string {
-  if (!signal.assessed) return 'bg-slate-600'
+  if (!signal.assessed) return 'bg-slate-600 dark:bg-slate-600'
 
   if (signal.rating <= 2) return 'bg-emerald-500'
   if (signal.rating <= 3) return 'bg-yellow-500'
@@ -257,6 +265,9 @@ function updateChart() {
     const score = Math.min(calculateTotalScore(), MAX_POSSIBLE_TOTAL)
     const remaining = MAX_POSSIBLE_TOTAL - score
 
+    // Choose background color based on color mode
+    const bgColor = colorMode.value === 'dark' ? '#1e293b' : '#f1f5f9'
+
     signalChart = new Chart(ctx, {
       type: 'doughnut',
       data: {
@@ -264,7 +275,7 @@ function updateChart() {
         datasets: [
           {
             data: [score, remaining],
-            backgroundColor: [intensityColor.value, '#1e293b'],
+            backgroundColor: [intensityColor.value, bgColor],
             borderWidth: 0,
             circumference: 180,
             rotation: 270
@@ -305,6 +316,14 @@ function resetDiscovery() {
   updateChart()
 }
 
+// Toggle color mode
+function toggleColorMode() {
+  colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
+  setTimeout(() => {
+    updateChart() // Update chart colors when theme changes
+  }, 100)
+}
+
 // Initialize
 onMounted(() => {
   currentScore.value = 0
@@ -331,9 +350,9 @@ onBeforeUnmount(() => {
       :ui="{ base: 'shadow-none text-center' }"
       class="bg-transparent border-0"
     >
-      <!-- Outer container styled like Momentum Scorecard -->
+      <!-- Outer container styled with dark/light mode support -->
       <div
-        class="w-[320px] sm:w-[360px] md:w-[400px] aspect-[9/18] rounded-[2.5rem] bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white p-6 flex flex-col justify-between"
+        class="w-[320px] sm:w-[360px] md:w-[400px] aspect-[9/18] rounded-[2.5rem] p-6 flex flex-col justify-between bg-slate-100 dark:bg-gradient-to-b dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 text-slate-900 dark:text-white transition-colors duration-300"
         aria-label="Signal Discovery"
         role="region"
       >
@@ -345,18 +364,39 @@ onBeforeUnmount(() => {
           <!-- App Header -->
           <div class="flex justify-between items-center mb-4">
             <div>
-              <h2 class="text-xl font-medium text-white">
+              <h2 class="text-xl font-medium">
                 Signal Discovery
               </h2>
-              <p class="text-slate-400 text-xs">
+              <p class="text-slate-500 dark:text-slate-400 text-xs">
                 {{ clientInfo.date }}
               </p>
             </div>
-            <input
-              v-model="clientInfo.name"
-              placeholder="Client"
-              class="bg-slate-800/40 border border-slate-700 text-white placeholder:text-slate-500 text-sm rounded-md px-2 py-1 max-w-[120px]"
-            >
+            <div class="flex items-center space-x-2">
+              <input
+                v-model="clientInfo.name"
+                placeholder="Client"
+                class="bg-white dark:bg-slate-800/40 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm rounded-md px-2 py-1 max-w-[120px]"
+              >
+              <!-- Theme toggle button -->
+              <button 
+                @click="toggleColorMode" 
+                class="p-1 rounded-md text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white"
+                title="Toggle light/dark mode"
+              >
+                <span v-if="colorMode.value === 'dark'" class="block w-5 h-5">
+                  <!-- Sun icon for dark mode -->
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                  </svg>
+                </span>
+                <span v-else class="block w-5 h-5">
+                  <!-- Moon icon for light mode -->
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                  </svg>
+                </span>
+              </button>
+            </div>
           </div>
 
           <!-- Signal Score Chart -->
@@ -373,16 +413,16 @@ onBeforeUnmount(() => {
               >
                 {{ currentScore }}
               </span>
-              <p class="text-xs text-slate-300 mt-1">
+              <p class="text-xs text-slate-600 dark:text-slate-300 mt-1">
                 signal score
                 <span
                   class="ml-2 px-1.5 py-0.5 text-[10px] rounded-full font-medium"
-                  :class="intensityPercentage < 60 ? 'bg-blue-500/20 text-blue-300' : 'bg-red-500/20 text-red-300'"
+                  :class="intensityPercentage < 60 ? 'bg-blue-500/20 text-blue-600 dark:text-blue-300' : 'bg-red-500/20 text-red-600 dark:text-red-300'"
                 >
                   {{ intensityLabel }}
                 </span>
               </p>
-              <p class="text-xs text-slate-400 mt-1">
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
                 {{ assessedCount }}/{{ signalPoints.length }} points assessed
               </p>
             </div>
@@ -390,7 +430,7 @@ onBeforeUnmount(() => {
 
           <!-- Signal Points Buttons -->
           <div class="mt-4 flex-grow overflow-y-auto pr-2 scrollbars-hidden">
-            <p class="text-xs text-slate-400 mb-2">
+            <p class="text-xs text-slate-500 dark:text-slate-400 mb-2">
               Select a signal to assess:
             </p>
 
@@ -398,15 +438,18 @@ onBeforeUnmount(() => {
               <div
                 v-for="point in signalPoints"
                 :key="point.id"
-                class="flex items-center justify-between p-2.5 rounded-lg cursor-pointer transition-all duration-200 bg-slate-800/60 hover:bg-slate-700/60 border-l-2"
-                :class="point.assessed ? point.borderColor : 'border-slate-600'"
+                class="flex items-center justify-between p-2.5 rounded-lg cursor-pointer transition-all duration-200 border-l-2"
+                :class="[
+                  point.assessed ? point.borderColor : 'border-slate-300 dark:border-slate-600',
+                  'bg-white hover:bg-slate-50 dark:bg-slate-800/60 dark:hover:bg-slate-700/60'
+                ]"
                 @click="openSignalDetail(point)"
               >
                 <div class="flex items-center">
                   <div :class="[point.color, 'mr-3']">
                     <div :class="[point.icon, 'w-5 h-5']" />
                   </div>
-                  <span :class="point.assessed ? point.color : 'text-slate-300'">
+                  <span :class="point.assessed ? point.color : 'text-slate-700 dark:text-slate-300'">
                     {{ point.name }}
                   </span>
                 </div>
@@ -432,10 +475,10 @@ onBeforeUnmount(() => {
           </div>
 
           <!-- App Footer -->
-          <div class="mt-4 pt-3 border-t border-slate-700/50">
+          <div class="mt-4 pt-3 border-t border-slate-200 dark:border-slate-700/50">
             <div class="flex justify-between">
               <button
-                class="px-4 py-2 text-slate-400 hover:text-white border border-slate-700 hover:bg-slate-800 rounded-md transition-colors"
+                class="px-4 py-2 text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-md transition-colors"
                 :disabled="assessedCount === 0"
                 @click="resetDiscovery"
               >
@@ -470,7 +513,7 @@ onBeforeUnmount(() => {
             </div>
 
             <button
-              class="text-slate-400 hover:text-white bg-transparent p-1.5 rounded-full hover:bg-slate-800/60"
+              class="text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white bg-transparent p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800/60"
               @click="closeSignalDetail"
             >
               ✕
@@ -480,7 +523,7 @@ onBeforeUnmount(() => {
           <!-- Signal intensity selector with Minimal/Moderate/Severe buttons -->
           <div class="mb-6">
             <div class="flex justify-between items-center mb-2">
-              <label class="text-sm text-slate-300">Signal Intensity</label>
+              <label class="text-sm text-slate-600 dark:text-slate-300">Signal Intensity</label>
               <span
                 :class="getRatingColor(activeSignal.rating)"
                 class="font-semibold"
@@ -495,7 +538,7 @@ onBeforeUnmount(() => {
                 class="flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all"
                 :class="activeSignal.rating <= 2
                   ? 'bg-emerald-600 text-white'
-                  : 'bg-slate-800 text-slate-300 hover:bg-emerald-900/50'"
+                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/50'"
                 @click="activeSignal.rating = 1"
               >
                 Minimal
@@ -504,7 +547,7 @@ onBeforeUnmount(() => {
                 class="flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all"
                 :class="activeSignal.rating === 3
                   ? 'bg-yellow-600 text-white'
-                  : 'bg-slate-800 text-slate-300 hover:bg-yellow-900/50'"
+                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-yellow-50 dark:hover:bg-yellow-900/50'"
                 @click="activeSignal.rating = 3"
               >
                 Moderate
@@ -513,7 +556,7 @@ onBeforeUnmount(() => {
                 class="flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all"
                 :class="activeSignal.rating >= 4
                   ? 'bg-red-600 text-white'
-                  : 'bg-slate-800 text-slate-300 hover:bg-red-900/50'"
+                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-red-50 dark:hover:bg-red-900/50'"
                 @click="activeSignal.rating = 5"
               >
                 Severe
@@ -530,7 +573,7 @@ onBeforeUnmount(() => {
               class="w-full h-2 bg-gradient-to-r from-emerald-500 via-yellow-500 to-red-500 rounded-full appearance-none cursor-pointer"
             >
 
-            <div class="flex justify-between text-xs text-slate-500 mt-1">
+            <div class="flex justify-between text-xs text-slate-400 dark:text-slate-500 mt-1">
               <span>Minimal</span>
               <span>Moderate</span>
               <span>Severe</span>
@@ -539,19 +582,19 @@ onBeforeUnmount(() => {
 
           <!-- Notes field -->
           <div class="flex-grow overflow-y-auto mb-4">
-            <label class="text-sm text-slate-300 block mb-2">Notes</label>
+            <label class="text-sm text-slate-600 dark:text-slate-300 block mb-2">Notes</label>
             <textarea
               v-model="activeSignal.notes"
-              class="w-full h-40 bg-slate-800/60 border-slate-700 border rounded-md text-slate-200 placeholder:text-slate-500 p-2 focus:ring-1 focus:ring-slate-500 focus:outline-none"
+              class="w-full h-40 bg-white dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-500 p-2 focus:ring-1 focus:ring-slate-500 focus:outline-none rounded-md"
               :placeholder="`Add notes about this signal...`"
             />
           </div>
 
           <!-- Actions -->
-          <div class="pt-3 border-t border-slate-700/50 mt-auto">
+          <div class="pt-3 border-t border-slate-200 dark:border-slate-700/50 mt-auto">
             <div class="flex justify-between">
               <button
-                class="px-4 py-2 text-slate-400 hover:text-white border border-slate-700 hover:bg-slate-800 rounded-md transition-colors"
+                class="px-4 py-2 text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-md transition-colors"
                 @click="closeSignalDetail"
               >
                 Cancel
@@ -604,5 +647,12 @@ input[type="range"]::-moz-range-thumb {
 /* Smooth transition for buttons */
 .transition-all {
   transition: all 0.3s ease;
+}
+
+/* Ensure smooth transition between light/dark modes */
+.transition-colors {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
 }
 </style>
