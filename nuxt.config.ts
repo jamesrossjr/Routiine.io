@@ -30,10 +30,10 @@ export default defineNuxtConfig({
 
   nitro: {
     prerender: {
-      routes: [
-        '/'
-      ],
-      crawlLinks: true
+      crawlLinks: true,
+      failOnError: true, // default true, but make explicit
+      // skip routes if needed:
+      // ignore: ['/some/dynamic/route']
     }
   },
 
